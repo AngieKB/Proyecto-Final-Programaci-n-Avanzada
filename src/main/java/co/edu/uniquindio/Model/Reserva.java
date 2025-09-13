@@ -16,7 +16,7 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // ID autoincremental, clave primaria
+    private Long id;
 
     private LocalDateTime fechaCheckIn;
 
@@ -24,12 +24,17 @@ public class Reserva {
 
     private Integer cantidadHuespedes;
 
-    private Double total;
+    private float total;
 
+    @Enumerated(EnumType.STRING)
     private EstadoReserva estado;
 
+    @ManyToOne
+    @JoinColumn(name = "huesped_id")
     private Huesped huesped;
 
+    @ManyToOne
+    @JoinColumn(name= "alojamiento_id")
     private Alojamiento alojamiento;
 }
 

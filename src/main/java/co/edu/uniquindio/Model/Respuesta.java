@@ -22,6 +22,8 @@ public class Respuesta {
 
     private LocalDateTime fecha;
 
+    @ManyToOne
+    @JoinColumn(name= "autor_id")
     private Anfitrion autor;
 }
 

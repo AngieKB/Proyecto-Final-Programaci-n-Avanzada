@@ -16,7 +16,6 @@ public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     private String texto;
@@ -25,10 +24,15 @@ public class Comentario {
 
     private LocalDateTime fecha;
 
+    @OneToOne(cascade = CascadeType.ALL)
     private Respuesta respuesta;
 
+    @ManyToOne
+    @JoinColumn(name = "huesped_id")
     private Huesped autor;
 
+    @ManyToOne
+    @JoinColumn(name= "alojamiento_id")
     private Alojamiento alojamiento;
 }
 
