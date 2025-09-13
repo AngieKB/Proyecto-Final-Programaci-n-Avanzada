@@ -1,4 +1,34 @@
 package co.edu.uniquindio.Model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "comentarios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Comentario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    private Long id;
+
+    private String texto;
+
+    private Integer calificacion; //de 1 a 5
+
+    private LocalDateTime fecha;
+
+    private Respuesta respuesta;
+
+    private Huesped autor;
+
+    private Alojamiento alojamiento;
 }
+
