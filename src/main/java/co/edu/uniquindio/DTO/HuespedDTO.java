@@ -1,4 +1,12 @@
 package co.edu.uniquindio.DTO;
 
-public class HuespedDTO {
-}
+import java.time.LocalDate;
+
+public record HuespedDTO (
+        String id,
+        String nombre,
+        String telefono,
+        String email,
+        String fotoUrl
+        //Role rol
+){}

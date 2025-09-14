@@ -1,4 +1,13 @@
 package co.edu.uniquindio.DTO;
 
-public class AnfitrionDTO{
+import java.time.LocalDate;
+
+public record AnfitrionDTO (
+        String id,
+        String nombre,
+        String telefono,
+        String email,
+        String fotoUrl
+        //Role rol
+){
 }

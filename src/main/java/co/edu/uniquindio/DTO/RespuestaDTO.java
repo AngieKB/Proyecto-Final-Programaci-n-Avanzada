@@ -1,4 +1,13 @@
 package co.edu.uniquindio.DTO;
 
-public class RespuestaDTO {
+import co.edu.uniquindio.Model.Anfitrion;
+
+import java.time.LocalDateTime;
+
+public record RespuestaDTO (
+        Long id,
+        String texto,
+        LocalDateTime fecha,
+        Anfitrion autor
+) {
 }
