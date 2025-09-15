@@ -6,7 +6,7 @@ plugins {
 
 group = 'co.edu.uniquindio'
 version = '0.0.1-SNAPSHOT'
-description = 'Breve descripción del proyecto'
+description = 'Aplicación para hacer reservas de alojamientos'
 
 java {
     toolchain {
