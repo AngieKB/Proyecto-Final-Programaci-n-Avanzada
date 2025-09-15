@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record AnfitrionDTO (
         String id,
         String nombre,
+        String descripcion,
         String telefono,
         String email,
         String fotoUrl
