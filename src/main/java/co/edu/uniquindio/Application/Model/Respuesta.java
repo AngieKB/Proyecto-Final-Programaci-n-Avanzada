@@ -22,8 +22,12 @@ public class Respuesta {
 
     private LocalDateTime fecha;
 
+    @OneToOne
+    @JoinColumn(name = "comentario_id")
+    private Comentario comentario;
+
     @ManyToOne
-    @JoinColumn(name= "autor_id")
-    private Anfitrion autor;
+    @JoinColumn(name= "anfitrion_id")
+    private Usuario anfitrion;
 }
 

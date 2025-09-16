@@ -2,6 +2,10 @@ package co.edu.uniquindio.Application.Model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import javax.xml.stream.Location;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,21 +27,25 @@ public class Alojamiento {
 
     @ElementCollection
     private List<String> galeria;
-    private String ciudad;
-    private String direccion;
-    private Double latitud;
-    private Double longitud;
+
+    @Embedded
+    private Ubicacion ubicacion;
+
     private Double precioNoche;
     private Integer capacidadMax;
 
-    @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comentario> comentarios;
+    private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reserva> reservas;
+    private List<Comentario> comentarios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private EstadoAlojamiento estado;
 
-
+    @ManyToOne
+    @JoinColumn(name = "anfitrion_id")
+    private PerfilAnfitrion anfitrion;
 }

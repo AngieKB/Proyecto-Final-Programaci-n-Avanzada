@@ -24,12 +24,14 @@ public class Reserva {
 
     private Double total;
 
+    private LocalDateTime fechaCreacion;
+
     @Enumerated(EnumType.STRING)
     private EstadoReserva estado;
 
     @ManyToOne
     @JoinColumn(name = "huesped_id")
-    private Huesped huesped;
+    private Usuario huesped;
 
     @ManyToOne
     @JoinColumn(name= "alojamiento_id")

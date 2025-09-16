@@ -24,12 +24,12 @@ public class Comentario {
 
     private LocalDateTime fecha;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "comentario", cascade = CascadeType.ALL)
     private Respuesta respuesta;
 
     @ManyToOne
     @JoinColumn(name = "huesped_id")
-    private Huesped autor;
+    private Usuario huesped;
 
     @ManyToOne
     @JoinColumn(name= "alojamiento_id")

@@ -1,30 +1,49 @@
 package co.edu.uniquindio.Application.Model;
 
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @Builder
-@MappedSuperclass
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private String id;
+
     private String nombre;
-    private String telefono;
+
+    @Column(unique =true, nullable=false)
     private String email;
+
+    private String telefono;
     private String password;
     private String fotoUrl;
     private LocalDate fechaNacimiento;
     private LocalDateTime fechaCreacion;
-    //private Role rol;
+
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "usuario_favoritos",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "alojamiento_id")
+    )
+    private List<Alojamiento> favoritos = new ArrayList<>();
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private PerfilAnfitrion perfilAnfitrion;
+
     //private UserStatus estadoUsuario;
 }

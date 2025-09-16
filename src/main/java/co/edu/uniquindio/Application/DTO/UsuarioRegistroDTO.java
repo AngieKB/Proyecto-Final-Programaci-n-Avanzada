@@ -1,5 +1,7 @@
 package co.edu.uniquindio.Application.DTO;
 
+import co.edu.uniquindio.Application.Model.*;
+
 import java.time.LocalDate;
 
 public class UsuarioRegistroDTO {
@@ -8,5 +10,5 @@ public class UsuarioRegistroDTO {
     String password;
     String telefono;
     LocalDate fechaNacimiento;
-    //rol
+    Rol rol;
 }
