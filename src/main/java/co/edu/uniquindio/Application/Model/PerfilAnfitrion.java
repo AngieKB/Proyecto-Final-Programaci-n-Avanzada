@@ -11,7 +11,9 @@ public class PerfilAnfitrion {
     private Long id;
 
     private String descripcion;
-    private String documentoLegal;
+
+    @ElementCollection
+    private List<String> documentosLegales;
 
     @OneToOne
     @JoinColumn(name = "usuario_id")

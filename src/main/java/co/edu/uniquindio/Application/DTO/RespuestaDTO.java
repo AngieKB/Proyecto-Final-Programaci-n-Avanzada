@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 
 public record RespuestaDTO (
         Long id,
+        Long comentarioId,
         String texto,
-        LocalDateTime fecha,
-        Anfitrion autor
+        LocalDateTime fecha
+        //UsuarioDTO autor
 ) {
 }

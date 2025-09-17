@@ -13,6 +13,6 @@ public record ComentarDTO(
         @NotBlank @Length(max = 200) String comentario,
         @NotNull @Max(5) @Min(1) int calificacion,
         @NotNull LocalDateTime fecha,
-        @NotNull Huesped autor,
+        @NotNull UsuarioDTO autor,
         @NotNull Alojamiento alojamiento
 ) { }

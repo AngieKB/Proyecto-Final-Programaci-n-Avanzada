@@ -1,14 +1,12 @@
 package co.edu.uniquindio.Application.DTO;
 
-import java.time.LocalDate;
+import co.edu.uniquindio.Application.Model.Rol;
 
-public record AnfitrionDTO (
+public record UsuarioDTO (
         String id,
         String nombre,
-        String descripcion,
         String telefono,
         String email,
-        String fotoUrl
-        //Role rol
-){
-}
+        String fotoUrl,
+        Rol rol
+){}

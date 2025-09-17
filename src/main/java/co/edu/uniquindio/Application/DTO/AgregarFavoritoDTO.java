@@ -4,7 +4,7 @@ import co.edu.uniquindio.Application.Model.Alojamiento;
 import jakarta.validation.constraints.NotNull;
 
 public record AgregarFavoritoDTO(
-        @NotNull Huesped huesped,
+        @NotNull UsuarioDTO huesped,
         @NotNull Alojamiento alojamiento
         ) {
 }

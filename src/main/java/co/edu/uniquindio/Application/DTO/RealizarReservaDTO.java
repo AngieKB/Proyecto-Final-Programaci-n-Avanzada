@@ -10,7 +10,7 @@ public record RealizarReservaDTO(
         @NotNull @Future LocalDateTime fechaCheckIn,
         @NotNull @Future LocalDateTime fechaCheckOut,
         @NotNull Integer cantidadHuespedes,
-        @NotNull Huesped huesped,
+        @NotNull UsuarioDTO huesped,
         @NotNull Alojamiento alojamiento
         ) {
 }

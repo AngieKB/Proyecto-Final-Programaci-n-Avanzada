@@ -1,14 +1,14 @@
 package co.edu.uniquindio.Application.DTO;
 
-import co.edu.uniquindio.Application.Model.*;
+import co.edu.uniquindio.Application.Model.Rol;
 
 import java.time.LocalDate;
 
-public class UsuarioRegistroDTO {
-    String nombre;
-    String email;
-    String password;
-    String telefono;
-    LocalDate fechaNacimiento;
-    Rol rol;
-}
+public record UsuarioRegistroDTO(
+    String nombre,
+    String email,
+    String telefono,
+    String password,
+    Rol rol,
+    LocalDate fechaNacimiento
+){}
