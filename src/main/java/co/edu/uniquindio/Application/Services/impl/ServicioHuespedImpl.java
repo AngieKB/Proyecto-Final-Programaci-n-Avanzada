@@ -2,7 +2,7 @@ package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.CrearHuespedDTO;
 import co.edu.uniquindio.Application.DTO.EditarHuespedDTO;
-import co.edu.uniquindio.Application.DTO.HuespedDTO;
+import co.edu.uniquindio.Application.DTO.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.ServicioHuesped;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class ServicioHuespedImpl implements ServicioHuesped {
     }
 
     @Override
-    public HuespedDTO get(String id) throws Exception {
+    public UsuarioDTO get(String id) throws Exception {
         return null;
     }
 
@@ -26,7 +26,7 @@ public class ServicioHuespedImpl implements ServicioHuesped {
     }
 
     @Override
-    public List<HuespedDTO> listAll() {
+    public List<UsuarioDTO> listAll() {
         return List.of();
     }
 

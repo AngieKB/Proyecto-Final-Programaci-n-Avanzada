@@ -2,8 +2,8 @@ package co.edu.uniquindio.Application.Controllers;
 
 import co.edu.uniquindio.Application.DTO.CrearHuespedDTO;
 import co.edu.uniquindio.Application.DTO.EditarHuespedDTO;
-import co.edu.uniquindio.Application.DTO.HuespedDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
+import co.edu.uniquindio.Application.DTO.UsuarioDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +35,15 @@ public class HuespedController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<HuespedDTO>> get(@PathVariable String id) throws Exception{
+    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable String id) throws Exception{
         //Lógica para consular el huesped
         return ResponseEntity.ok(new ResponseDTO<>(false, null));
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<HuespedDTO>>> listAll(){
+    public ResponseEntity<ResponseDTO<List<UsuarioDTO>>> listAll(){
         //Lógica para consultar todos los huespedes
-        List<HuespedDTO> list = new ArrayList<>();
+        List<UsuarioDTO> list = new ArrayList<>();
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 }
