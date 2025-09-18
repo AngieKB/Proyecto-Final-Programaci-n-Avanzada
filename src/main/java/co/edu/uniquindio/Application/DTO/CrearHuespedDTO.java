@@ -1,4 +1,5 @@
 package co.edu.uniquindio.Application.DTO;
+import co.edu.uniquindio.Application.Model.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ public record CrearHuespedDTO(
         @NotBlank @Length(min = 7, max = 20) String password,
         @Length(max = 300) String fotoUrl,
         @NotNull @Past LocalDate fechaNacimiento,
-        @NotNull @Past LocalDateTime fechaCreacion
-        //@NotNull Role role
+        @NotNull @Past LocalDateTime fechaCreacion,
+        @NotNull Rol rol
 ) {
 }

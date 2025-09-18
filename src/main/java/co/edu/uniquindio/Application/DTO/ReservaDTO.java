@@ -13,7 +13,5 @@ public record ReservaDTO (
         Integer cantidadHuespedes,
         Double total,
         EstadoReserva estadoReserva
-//        UsuarioDTO huesped,
-//        AlojamientoDTO alojamiento
 ){
 }

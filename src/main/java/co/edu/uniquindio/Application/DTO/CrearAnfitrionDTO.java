@@ -1,5 +1,6 @@
 package co.edu.uniquindio.Application.DTO;
 
+import co.edu.uniquindio.Application.Model.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record CrearAnfitrionDTO(
         @NotBlank @Length(max = 100) String nombre,
@@ -17,7 +19,8 @@ public record CrearAnfitrionDTO(
         @Length(max = 300) String fotoUrl,
         @NotNull @Past LocalDate fechaNacimiento,
         @NotNull @Past LocalDateTime fechaCreacion,
-        //@NotNull Role role
-        @NotBlank @Length(max = 300) String descripcion
+        @NotNull Rol rol,
+        @NotBlank @Length(max = 300) String descripcion,
+        @NotNull List<String> documentosLegales
 ) {
 }

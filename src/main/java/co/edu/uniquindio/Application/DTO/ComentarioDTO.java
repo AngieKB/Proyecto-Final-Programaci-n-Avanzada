@@ -6,10 +6,9 @@ public record ComentarioDTO (
         Long id,
         Long usuarioId,
         Long alojamientoId,
+        Long reservaId,
         String texto,
         Integer calificacion,
         LocalDateTime fecha,
         RespuestaDTO respuesta
-        //UsuarioDTO autor,
-        //AlojamientoDTO alojamiento
 ) {}
