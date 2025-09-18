@@ -1,7 +1,10 @@
 package co.edu.uniquindio.Application.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record UsuarioPasswordCambiarDTO(
-    Long usuarioId,
-    String passwordActual,
-    String passwordNueva
+    @NotNull Long usuarioId,
+    @NotBlank String passwordActual,
+    @NotBlank String passwordNueva
 ){}

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: API proyecto Airbnb
+  title: API proyecto Hostenia
   version: 1.0.0
 paths:
   /users:
@@ -123,7 +123,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /host/{id}:
+  /users/host/{id}:
     patch:
       summary: Actualización de datos del anfitrión
       description: Puede actualizar el nombre, el telefono y la foto de perfil siempre y cuando exista el usuario con ese id
