@@ -12,9 +12,12 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public abstract class Usuario {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Usuario {
     @Id
     @GeneratedValue
+    @Column(length = 20, nullable = false)
     private String id;
 
     private String nombre;

@@ -8,6 +8,8 @@ import java.util.List;
 @Entity
 public class PerfilAnfitrion {
     @Id @GeneratedValue
+    @Column(length = 20, nullable = false)
+
     private Long id;
 
     private String descripcion;

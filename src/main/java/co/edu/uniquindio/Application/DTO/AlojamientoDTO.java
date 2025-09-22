@@ -3,6 +3,7 @@ package co.edu.uniquindio.Application.DTO;
 import co.edu.uniquindio.Application.Model.Comentario;
 import co.edu.uniquindio.Application.Model.EstadoAlojamiento;
 import co.edu.uniquindio.Application.Model.Reserva;
+import lombok.*;
 
 import java.util.List;
 

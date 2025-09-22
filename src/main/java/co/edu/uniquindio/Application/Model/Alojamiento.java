@@ -17,21 +17,27 @@ public class Alojamiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 20, nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String titulo;
+
     private String descripcion;
 
     @ElementCollection
     private List<String> servicios;
 
     @ElementCollection
+    @Column(nullable = false)
     private List<String> galeria;
 
     @Embedded
     private Ubicacion ubicacion;
 
+    @Column(nullable = false)
     private Double precioNoche;
+    @Column(nullable = false)
     private Integer capacidadMax;
 
     private LocalDateTime fechaCreacion;
@@ -43,6 +49,7 @@ public class Alojamiento {
     private List<Reserva> reservas = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoAlojamiento estado;
 
     @ManyToOne

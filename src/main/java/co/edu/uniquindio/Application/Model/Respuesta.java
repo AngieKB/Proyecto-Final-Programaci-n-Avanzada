@@ -16,6 +16,7 @@ public class Respuesta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 20, nullable = false)
     private Long id;
 
     private String texto;

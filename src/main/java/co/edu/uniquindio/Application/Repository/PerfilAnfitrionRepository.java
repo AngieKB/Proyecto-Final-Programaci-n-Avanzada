@@ -1,0 +1,7 @@
+package co.edu.uniquindio.Application.Repository;
+
+import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PerfilAnfitrionRepository extends JpaRepository<PerfilAnfitrion, Long> {
+}
