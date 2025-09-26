@@ -1,0 +1,50 @@
+package co.edu.uniquindio.Application.Controllers;
+
+
+import co.edu.uniquindio.Application.DTO.*;
+import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/alojamiento")
+public class AlojamientoController {
+
+    private final AlojamientoServiceImpl alojamientoService;
+
+    @PostMapping
+    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody AlojamientoDTO alojamientoDTO) throws Exception {
+        alojamientoService.guardar(alojamientoDTO);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido registrado"));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id, @Valid @RequestBody AlojamientoDTO alojamientoDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
+        alojamientoService.editarAlojamiento(id, alojamientoDTO, ubicacionDTO);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) throws Exception{
+        alojamientoService.eliminar(id);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable Long id) throws Exception{
+        alojamientoService.obtenerPorId(id);
+        return ResponseEntity.ok(new ResponseDTO<>(false, null));
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listAll(){
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarTodos());
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+}

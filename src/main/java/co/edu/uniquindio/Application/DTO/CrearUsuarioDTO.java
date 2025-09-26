@@ -6,11 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-public record UsuarioRegistroDTO(
+public record CrearUsuarioDTO(
     @NotBlank @Length(max=30) String nombre,
     @Email @NotBlank String email,
     @NotBlank @Length(max=10) String telefono,

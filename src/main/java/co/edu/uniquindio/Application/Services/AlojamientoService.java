@@ -1,6 +1,8 @@
 package co.edu.uniquindio.Application.Services;
 
 import co.edu.uniquindio.Application.DTO.AlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.EditarAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.UbicacionDTO;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.Ubicacion;
