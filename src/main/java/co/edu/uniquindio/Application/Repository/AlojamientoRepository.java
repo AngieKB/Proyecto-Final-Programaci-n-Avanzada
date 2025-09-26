@@ -14,6 +14,8 @@ public interface AlojamientoRepository extends JpaRepository<Alojamiento, Long> 
     List<Alojamiento> findByPrecioNocheBetween(Double precioMin, Double precioMax);
     List<Alojamiento> findByUbicacionCiudadContainingIgnoreCase(String ciudad);
 
+    List<Alojamiento> findByAnfitrionId(Long anfitrionId);
+
     //no se si quitarlo, además de que eso, oarece trabalenguas como dijo el profe, no se si ponerlo como query
     List<Alojamiento> findByUbicacionCiudadContainingIgnoreCaseAndPrecioNocheBetweenAndEstado(
         String ciudad, Double precioMin, Double precioMax, EstadoAlojamiento estado);
