@@ -18,7 +18,7 @@ public class Usuario {
     @Id
     @GeneratedValue
     @Column(length = 20, nullable = false)
-    private String id;
+    private Long id;
 
     private String nombre;
 
