@@ -55,4 +55,5 @@ public class Alojamiento {
     @ManyToOne
     @JoinColumn(name = "anfitrion_id")
     private PerfilAnfitrion anfitrion;
+
 }

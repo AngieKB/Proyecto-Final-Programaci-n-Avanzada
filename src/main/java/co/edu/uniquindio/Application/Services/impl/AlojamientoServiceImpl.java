@@ -1,18 +1,26 @@
 package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.AlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.MetricasDTO;
 import co.edu.uniquindio.Application.DTO.UbicacionDTO;
 import co.edu.uniquindio.Application.Model.Alojamiento;
+import co.edu.uniquindio.Application.Model.Comentario;
+import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
 import co.edu.uniquindio.Application.Model.Ubicacion;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
+import co.edu.uniquindio.Application.Repository.PerfilAnfitrionRepository;
+import co.edu.uniquindio.Application.Repository.ReservaRepository;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
 import lombok.RequiredArgsConstructor;
 import co.edu.uniquindio.Application.mappers.AlojamientoMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +30,7 @@ public class AlojamientoServiceImpl implements AlojamientoService {
 
 
     @Override
-    public void guardar(AlojamientoDTO alojamientodto) throws Exception{
+    public void guardar(CrearAlojamientoDTO alojamientodto) throws Exception{
         Alojamiento newAlojamiento = alojamientoMapper.toEntity(alojamientodto);
         alojamientoRepository.save(newAlojamiento);
     }
@@ -60,31 +68,41 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     public void eliminar(Long id) {
         alojamientoRepository.deleteById(id);
     }
+
     @Override
-    public List<String> verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax){
+    public MetricasDTO verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax){
         Alojamiento alojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
-        List<String> metricas = alojamiento.verMetricas();
-        return metricas;
+        int total = alojamiento.getComentarios().stream().mapToInt(Comentario::getCalificacion).sum();
+        double promedio = (double) total / alojamiento.getComentarios().size();
+        int reservas = alojamiento.getReservas().size();
+        return new MetricasDTO(promedio, reservas);
     }
+
     @Override
     public List<AlojamientoDTO> buscarPorCiudad(String ciudad) {
-        return alojamientoRepository.findByCity().stream().map(alojamientoMapper::toDTO).toList();
+        return alojamientoRepository.findByUbicacionCiudadContainingIgnoreCase(ciudad).stream().map(alojamientoMapper::toDTO).toList();
     }
+
     @Override
     public List<AlojamientoDTO> listarPorAnfitrion(Long idAnfitrion) {
-        return alojamientoRepository.findByHost().stream().map(alojamientoMapper::toDTO).toList();
+        return alojamientoRepository.findByAnfitrionId(idAnfitrion).stream().map(alojamientoMapper::toDTO).toList();
     }
+
     @Override
     public List<AlojamientoDTO> buscarPorPrecio(double min, double max) {
-        return alojamientoRepository.findByPrice().stream().map(alojamientoMapper::toDTO).toList();
+        return alojamientoRepository.findByPrecioNocheBetween(min,max).stream().map(alojamientoMapper::toDTO).toList();
     }
 
     @Override
     public List<AlojamientoDTO> buscarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        return alojamientoRepository.findByDate().stream().map(alojamientoMapper::toDTO).toList();
+        return alojamientoRepository.findByDate(fechaInicio,fechaFin).stream().map(alojamientoMapper::toDTO).toList();
     }
+
     @Override
     public List<AlojamientoDTO> buscarPorServicios(List<String> servicios) {
-        return alojamientoRepository.findByServices().stream().map(alojamientoMapper::toDTO).toList();
+        return alojamientoRepository.findByServicios(servicios, servicios.size())
+                .stream()
+                .map(alojamientoMapper::toDTO)
+                .toList();
     }
 }

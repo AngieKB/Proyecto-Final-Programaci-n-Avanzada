@@ -3,11 +3,14 @@ package co.edu.uniquindio.Application.Controllers;
 
 import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
+import jakarta.validation.ReportAsSingleViolation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class AlojamientoController {
     private final AlojamientoServiceImpl alojamientoService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody AlojamientoDTO alojamientoDTO) throws Exception {
+    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody CrearAlojamientoDTO alojamientoDTO) throws Exception {
         alojamientoService.guardar(alojamientoDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido registrado"));
     }
@@ -45,6 +48,29 @@ public class AlojamientoController {
     @GetMapping
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listAll(){
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarTodos());
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @GetMapping("/buscarPorCiudad")
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorCiudad(@RequestParam String ciudad) throws Exception {
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorCiudad(ciudad));
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @GetMapping("/buscarPorFechas")
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorFechas(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) throws Exception{
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorFechas(fechaInicio,fechaFin));
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @GetMapping("/buscarPorPrecio")
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+}
+    @GetMapping("/buscarPorServicios")
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorServicios(@RequestParam List<String> servicios) throws Exception{
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorServicios(servicios));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 }
