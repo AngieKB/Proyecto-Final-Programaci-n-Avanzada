@@ -67,10 +67,16 @@ public class AlojamientoController {
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
-}
+    }
     @GetMapping("/buscarPorServicios")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorServicios(@RequestParam List<String> servicios) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorServicios(servicios));
+        return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @GetMapping("/listarPorAnfitrion/{idAnfitrion}")
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listarPorAnfitrion(@PathVariable Long idAnfitrion) throws Exception {
+        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarPorAnfitrion(idAnfitrion));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 }
