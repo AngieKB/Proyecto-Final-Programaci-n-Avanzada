@@ -3,7 +3,7 @@ info:
   title: API proyecto Hostenia
   version: 1.0.0
 paths:
-  /users:
+  /usuarios:
     post:
       summary: Registrar un nuevo usuario
       description: Registra un usuario, valida que el número de id y el correo no esten repetidos con otro usuario y todos los campos son obligatorios
@@ -47,7 +47,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /users/login:
+  /usuarios/login:
     post:
       summary: Login de Usuario
       description: El usuario puede iniciar sesión por medio de su nombre y contraseña respectiva.
@@ -57,7 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserRegistration'
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Inicio de sesión exitoso
@@ -77,7 +77,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /users/{id}:
+  /usuarios/{id}:
     patch:
       summary: Actualización de datos del usuario
       description: Puede actualizar el nombre, el telefono y la foto de perfil siempre y cuando exista el usuario con ese id
@@ -123,7 +123,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /users/host/{id}:
+  /usuarios/anfitrion/{id}:
     patch:
       summary: Actualización de datos del anfitrión
       description: Puede actualizar el nombre, el telefono y la foto de perfil siempre y cuando exista el usuario con ese id
@@ -169,7 +169,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /users/{id}/forgot-password:
+  /usuarios/{id}/recuperar-password:
     post:
       summary: Solicitar código de recuperación de contraseña
       description: Envía un código de recuperación al correo del usuario.
@@ -266,7 +266,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /usuarios/change-password:
+  /usuarios/cambiar-password:
     patch:
       summary: Cambiar contraseña
       description: Permite al usuario cambiar su contraseña ingresando la actual y la nueva.
@@ -328,7 +328,7 @@ paths:
               $ref: '#/components/schemas/LodgingRegister'
       responses:
         '201':
-          description: Usuario registrado exitosamente
+          description: Alojamiento registrado exitosamente
           content:
             application/json:
               schema:
@@ -469,6 +469,18 @@ paths:
               type: string
           style: form
           explode: false
+        - name: capacidad_min
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: ordenarPor
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ precio, calificacion, fecha ]
+            default: precio
       responses:
         '200':
           description: Los filtros de busqueda se aplicaron correctamente
@@ -653,16 +665,21 @@ paths:
       security:
         - BearerAuth: [ ]
       parameters:
-        - name: estado
-          in: query
-          required: false
+        - in: query
+          name: estado
           schema:
             type: string
-            enum:
-              - Pendiente
-              - Confirmada
-              - Cancelada
-              - Completada
+            enum: [ CONFIRMADA, CANCELADA, PENDIENTE, COMPLETADA ]
+        - in: query
+          name: fecha_inicio
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: fecha_fin
+          schema:
+            type: string
+            format: date
       responses:
         '200':
           description: Lista de reservas del usuario
@@ -718,20 +735,43 @@ paths:
       summary: Listar comentarios de un alojamiento
       operationId: listarComentarios
       parameters:
-        - name: id
-          in: path
+        - in: path
+          name: id
           required: true
           schema:
             type: integer
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+        - in: query
+          name: ordenarPor
+          schema:
+            type: string
+            enum: [ fecha, calificacion ]
+            default: fecha
       responses:
         '200':
           description: Lista de comentarios ordenados por fecha
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ComentarioResponse'
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  paginaActual:
+                    type: integer
+                  comentarios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComentarioResponse'
         '404':
           description: Alojamiento no encontrado
 
@@ -758,6 +798,10 @@ paths:
       responses:
         '201':
           description: Respuesta registrada con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComentarioResponse'
 
   /alojamientos/{id}/calificacion-promedio:
     get:
@@ -806,14 +850,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    idAlojamiento:
-                      type: integer
-                    nombre:
-                      type: string
-                    ubicacion:
-                      type: string
+                  $ref: '#/components/schemas/LodgingSummary'
         '404':
           description: Usuario no encontrado
 
@@ -920,6 +957,18 @@ components:
         - telefono
         - rol
         - fecha_nacimiento
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+        - email
+        - password
 
     UserResponse:
       type: object
@@ -1093,16 +1142,56 @@ components:
           type: string
           format: date-time
 
+    LodgingSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+        ubicacion:
+          $ref: '#/components/schemas/Ubicacion'
+        precioPorNoche:
+          type: number
+        calificacionPromedio:
+          type: number
+          format: float
+
+    Ubicacion:
+      type: object
+      properties:
+        ciudad:
+          type: string
+        pais:
+          type: string
+        direccion:
+          type: string
+        latitud:
+          type: number
+          format: float
+        longitud:
+          type: number
+          format: float
+      required:
+        - ciudad
+        - direccion
+
     LodgingMetricsResponse:
       type: object
       properties:
-        idAlojamiento:
-          type: integer
         numeroReservas:
           type: integer
         promedioCalificaciones:
           type: number
           format: float
+        ingresosGenerados:
+          type: number
+          format: float
+          example: 12500.50
+        ocupacionPorcentaje:
+          type: number
+          format: float
+          example: 75.3
 
     ReservaCreate:
       type: object

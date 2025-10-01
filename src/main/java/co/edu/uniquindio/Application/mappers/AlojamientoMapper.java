@@ -10,5 +10,4 @@ import org.mapstruct.MappingConstants;
 public interface AlojamientoMapper {
     Alojamiento toEntity(CrearAlojamientoDTO dto);
     AlojamientoDTO toDTO(Alojamiento entity);
-
 }

@@ -1,11 +1,17 @@
 package co.edu.uniquindio.Application.Model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PerfilAnfitrion {
     @Id @GeneratedValue
     @Column(length = 20, nullable = false)
