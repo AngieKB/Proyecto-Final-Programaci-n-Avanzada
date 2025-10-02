@@ -1,17 +1,17 @@
 package co.edu.uniquindio.Application.DTO;
 
 import co.edu.uniquindio.Application.Model.*;
-
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 public record ReservaDTO (
         Long id,
-        Long alojamientoId,
-        Long usuarioId,
-        LocalDateTime fechaCheckIn,
-        LocalDateTime fechaCheckOut,
-        Integer cantidadHuespedes,
-        Double total,
-        EstadoReserva estadoReserva
+        @NotNull Long alojamientoId,
+        @NotNull Long usuarioId,
+        @NotNull LocalDateTime fechaCheckIn,
+        @NotNull LocalDateTime fechaCheckOut,
+        @NotNull @Min(1) Integer cantidadHuespedes,
+        @NotNull Double total,
+        @NotNull @PositiveOrZero EstadoReserva estadoReserva
 ){
 }
