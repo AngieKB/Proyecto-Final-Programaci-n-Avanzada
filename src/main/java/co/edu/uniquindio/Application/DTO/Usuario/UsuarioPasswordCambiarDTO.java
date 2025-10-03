@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Usuario;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

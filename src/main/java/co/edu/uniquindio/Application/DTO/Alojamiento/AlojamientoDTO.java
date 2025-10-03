@@ -1,9 +1,8 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Alojamiento;
 
 import co.edu.uniquindio.Application.Model.Comentario;
 import co.edu.uniquindio.Application.Model.EstadoAlojamiento;
 import co.edu.uniquindio.Application.Model.Reserva;
-import lombok.*;
 
 import java.util.List;
 

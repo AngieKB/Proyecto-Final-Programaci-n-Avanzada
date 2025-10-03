@@ -1,35 +1,18 @@
-package co.edu.uniquindio.Application.mappers;
+package co.edu.uniquindio.Application.Mappers;
 
-import co.edu.uniquindio.Application.DTO.AlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.PerfilAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
+
 import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
 
-import java.util.stream.Collectors;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PerfilAnfitrionMapper {
-    public static PerfilAnfitrionDTO toDTO(PerfilAnfitrion entity) {
-        return new PerfilAnfitrionDTO(
-                entity.getId(),
-                entity.getUsuario() != null ? entity.getUsuario().getId() : null,
-                entity.getDescripcion(),
-                entity.getDocumentosLegales(),
-                entity.getAlojamientos()
-                        .stream()
-                        .map(aloj -> new AlojamientoDTO(
-                                aloj.getId(),
-                                aloj.getTitulo(),
-                                aloj.getDescripcion(),
-                                aloj.getPrecio()
-                        ))
-                        .collect(Collectors.toList())
-        );
-    }
-
-    public static PerfilAnfitrion toEntity(PerfilAnfitrionDTO dto) {
-        PerfilAnfitrion entity = new PerfilAnfitrion();
-        entity.setId(dto.id());
-        entity.setDescripcion(dto.descripcion());
-        entity.setDocumentosLegales(dto.domentosLegales());
-        return entity;
-    }
+    PerfilAnfitrionDTO toDTO(PerfilAnfitrion entity);
+    PerfilAnfitrion toEntity(CrearAnfitrionDTO dto);
+    void updatePerfilAnfitrionFromDto(EditarAnfitrionDTO dto, @MappingTarget PerfilAnfitrion anfitrion);
 }

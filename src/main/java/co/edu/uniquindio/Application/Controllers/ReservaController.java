@@ -1,7 +1,10 @@
 package co.edu.uniquindio.Application.Controllers;
 
 import co.edu.uniquindio.Application.DTO.*;
-import co.edu.uniquindio.Application.Services.ReservaService;
+import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,7 @@ public class ReservaController {
     private final ReservaServiceImpl reservaService;
 
 
-    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody ReservaDTO reservaDTO) throws Exception {
+    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody RealizarReservaDTO reservaDTO) throws Exception {
         reservaService.guardar(reservaDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido registrada"));
     }

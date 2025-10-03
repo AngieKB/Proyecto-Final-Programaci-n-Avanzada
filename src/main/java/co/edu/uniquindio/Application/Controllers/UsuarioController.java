@@ -1,9 +1,9 @@
 package co.edu.uniquindio.Application.Controllers;
 
-import co.edu.uniquindio.Application.DTO.CrearUsuarioDTO;
-import co.edu.uniquindio.Application.DTO.EditarUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
-import co.edu.uniquindio.Application.DTO.UsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.impl.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

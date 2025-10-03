@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Usuario;
 
 import co.edu.uniquindio.Application.Model.Rol;
 

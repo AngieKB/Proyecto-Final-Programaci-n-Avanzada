@@ -1,7 +1,7 @@
-package co.edu.uniquindio.Application.mappers;
+package co.edu.uniquindio.Application.Mappers;
 
-import co.edu.uniquindio.Application.DTO.AlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

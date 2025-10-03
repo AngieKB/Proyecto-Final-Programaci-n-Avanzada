@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Anfitrion;
 
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;

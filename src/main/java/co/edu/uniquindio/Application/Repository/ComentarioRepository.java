@@ -9,4 +9,5 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
     List<Comentario> findByAlojamientoIdOrderByFechaDesc(Long alojamientoId);
     boolean existsByAlojamientoIdAndHuespedId(Long alojamientoId, Long huespedId);
+    List<Comentario> findByAlojamientoId(Long alojamientoId);
 }

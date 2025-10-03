@@ -1,6 +1,8 @@
 package co.edu.uniquindio.Application.Services;
 
-import co.edu.uniquindio.Application.DTO.*;
+import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 
 import java.util.List;
 

@@ -1,26 +1,21 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.AlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.CrearAlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.MetricasDTO;
-import co.edu.uniquindio.Application.DTO.UbicacionDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.MetricasDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.Comentario;
-import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
 import co.edu.uniquindio.Application.Model.Ubicacion;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
-import co.edu.uniquindio.Application.Repository.PerfilAnfitrionRepository;
-import co.edu.uniquindio.Application.Repository.ReservaRepository;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
 import lombok.RequiredArgsConstructor;
-import co.edu.uniquindio.Application.mappers.AlojamientoMapper;
+import co.edu.uniquindio.Application.Mappers.AlojamientoMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +31,8 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public Optional<AlojamientoDTO> obtenerPorId(Long id) throws Exception{
-        return alojamientoRepository.findById(id).map(alojamientoMapper::toDTO);
+    public AlojamientoDTO obtenerPorId(Long id) throws Exception{
+        return alojamientoRepository.findById(id).map(alojamientoMapper::toDTO).orElseThrow(() -> new Exception("Alojamiento no encontrado con id: " + id));
     }
 
     @Override

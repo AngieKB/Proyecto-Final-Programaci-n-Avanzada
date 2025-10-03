@@ -1,10 +1,10 @@
 package co.edu.uniquindio.Application.Services;
 
-import co.edu.uniquindio.Application.DTO.*;
-import co.edu.uniquindio.Application.Model.Alojamiento;
-import co.edu.uniquindio.Application.Model.Ubicacion;
+import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.MetricasDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface AlojamientoService {
     void guardar(CrearAlojamientoDTO alojamientodto) throws Exception;
-    Optional<AlojamientoDTO> obtenerPorId(Long id) throws Exception;
+    AlojamientoDTO obtenerPorId(Long id) throws Exception;
     List<AlojamientoDTO> listarTodos()throws Exception;
     void editarAlojamiento(Long id, AlojamientoDTO dto, UbicacionDTO ubicaciondto)throws Exception;
     void eliminar(Long id)throws Exception;
@@ -22,9 +22,4 @@ public interface AlojamientoService {
     List<AlojamientoDTO> listarPorAnfitrion(Long idAnfitrion)throws Exception;
     List<AlojamientoDTO> buscarPorFechas(LocalDateTime inicio, LocalDateTime fin)throws Exception;
     List<AlojamientoDTO> buscarPorServicios(List<String> servicios)throws Exception;
-
-
-
-
 }
-

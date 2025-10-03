@@ -1,6 +1,6 @@
-package co.edu.uniquindio.Application.mappers;
+package co.edu.uniquindio.Application.Mappers;
 
-import co.edu.uniquindio.Application.DTO.UbicacionDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 import co.edu.uniquindio.Application.Model.Ubicacion;
 import org.mapstruct.Mapper;
 

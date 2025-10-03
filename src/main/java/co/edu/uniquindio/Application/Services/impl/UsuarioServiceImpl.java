@@ -1,11 +1,11 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.CrearUsuarioDTO;
-import co.edu.uniquindio.Application.DTO.EditarUsuarioDTO;
-import co.edu.uniquindio.Application.DTO.UsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Model.Usuario;
 import co.edu.uniquindio.Application.Services.UsuarioService;
-import co.edu.uniquindio.Application.mappers.UsuarioMapper;
+import co.edu.uniquindio.Application.Mappers.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

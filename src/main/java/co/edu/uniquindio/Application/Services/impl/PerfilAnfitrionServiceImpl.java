@@ -1,61 +1,58 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.PerfilAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
 import co.edu.uniquindio.Application.Exceptions.RecursoNoEncontradoException;
-import co.edu.uniquindio.Application.mappers.PerfilAnfitrionMapper;
+import co.edu.uniquindio.Application.Mappers.PerfilAnfitrionMapper;
 import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
 import co.edu.uniquindio.Application.Repository.PerfilAnfitrionRepository;
 import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
-    private final PerfilAnfitrionRepository repository;
-
-    public PerfilAnfitrionServiceImpl(PerfilAnfitrionRepository repository) {
-        this.repository = repository;
-    }
+    private final PerfilAnfitrionRepository perfilAnfitrionRepository;
+    private final PerfilAnfitrionMapper perfilAnfitrionMapper;
 
     @Override
-    public PerfilAnfitrionDTO crearPerfil(PerfilAnfitrionDTO dto) {
-        PerfilAnfitrion entity = PerfilAnfitrionMapper.toEntity(dto);
-        return PerfilAnfitrionMapper.toDTO(repository.save(entity));
+    public void crearPerfil(CrearAnfitrionDTO dto) {
+        perfilAnfitrionRepository.save(perfilAnfitrionMapper.toEntity(dto));
     }
 
     @Override
     public PerfilAnfitrionDTO obtenerPerfil(Long id) {
-        PerfilAnfitrion perfil = repository.findById(id)
+        PerfilAnfitrion perfil = perfilAnfitrionRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado"));
-        return PerfilAnfitrionMapper.toDTO(perfil);
+        return perfilAnfitrionMapper.toDTO(perfil);
     }
 
     @Override
     public List<PerfilAnfitrionDTO> listarPerfiles() {
-        return repository.findAll()
+        return perfilAnfitrionRepository.findAll()
                 .stream()
-                .map(PerfilAnfitrionMapper::toDTO)
+                .map(perfilAnfitrionMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PerfilAnfitrionDTO actualizarPerfil(Long id, PerfilAnfitrionDTO dto) {
-        PerfilAnfitrion perfil = repository.findById(id)
+    public void actualizarPerfil(Long id, EditarAnfitrionDTO dto) {
+        PerfilAnfitrion perfil = perfilAnfitrionRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado"));
-
-        perfil.setDescripcion(dto.descripcion());
-        perfil.setDocumentosLegales(dto.domentosLegales());
-        return PerfilAnfitrionMapper.toDTO(repository.save(perfil));
+        perfilAnfitrionMapper.updatePerfilAnfitrionFromDto(dto, perfil);
+        perfilAnfitrionRepository.save(perfil);
     }
 
     @Override
     public void eliminarPerfil(Long id) {
-        if (!repository.existsById(id)) {
+        if (!perfilAnfitrionRepository.existsById(id)) {
             throw new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado");
         }
-        repository.deleteById(id);
+        perfilAnfitrionRepository.deleteById(id);
     }
-}
 }

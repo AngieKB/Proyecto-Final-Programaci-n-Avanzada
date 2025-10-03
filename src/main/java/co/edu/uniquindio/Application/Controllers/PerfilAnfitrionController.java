@@ -1,6 +1,9 @@
 package co.edu.uniquindio.Application.Controllers;
 
-import co.edu.uniquindio.Application.DTO.PerfilAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
+import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,38 +20,31 @@ public class PerfilAnfitrionController {
         this.perfilAnfitrionService = perfilAnfitrionService;
     }
 
-    // Crear un nuevo perfil de anfitrión
     @PostMapping
-    public ResponseEntity<PerfilAnfitrionDTO> crearPerfil(@RequestBody PerfilAnfitrionDTO dto) {
-        PerfilAnfitrionDTO nuevo = perfilAnfitrionService.crearPerfil(dto);
-        return ResponseEntity.ok(nuevo);
+    public ResponseEntity<ResponseDTO<String>> crearPerfil(@RequestBody CrearAnfitrionDTO dto) {
+        perfilAnfitrionService.crearPerfil(dto);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil creado exitosamente"));
     }
 
-    // Obtener perfil por ID
     @GetMapping("/{id}")
-    public ResponseEntity<PerfilAnfitrionDTO> obtenerPerfil(@PathVariable Long id) {
-        return ResponseEntity.ok(perfilAnfitrionService.obtenerPerfil(id));
+    public ResponseEntity<ResponseDTO<PerfilAnfitrionDTO>> obtenerPerfil(@PathVariable Long id) {
+        return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.obtenerPerfil(id)));
     }
 
-    // Listar todos los perfiles
     @GetMapping
-    public ResponseEntity<List<PerfilAnfitrionDTO>> listarPerfiles() {
-        return ResponseEntity.ok(perfilAnfitrionService.listarPerfiles());
+    public ResponseEntity<ResponseDTO<List<PerfilAnfitrionDTO>>> listarPerfiles() {
+        return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.listarPerfiles()));
     }
 
-    // Actualizar perfil
     @PutMapping("/{id}")
-    public ResponseEntity<PerfilAnfitrionDTO> actualizarPerfil(
-            @PathVariable Long id,
-            @RequestBody PerfilAnfitrionDTO dto
-    ) {
-        return ResponseEntity.ok(perfilAnfitrionService.actualizarPerfil(id, dto));
+    public ResponseEntity<ResponseDTO<String>> actualizarPerfil(@PathVariable Long id, @RequestBody EditarAnfitrionDTO dto) {
+        perfilAnfitrionService.actualizarPerfil(id, dto);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil actualizado exitosamente"));
     }
 
-    // Eliminar perfil
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarPerfil(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO<String>> eliminarPerfil(@PathVariable Long id) {
         perfilAnfitrionService.eliminarPerfil(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil eliminado exitosamente"));
     }
 }

@@ -1,4 +1,6 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Anfitrion;
+
+import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
 
 import java.util.List;
 

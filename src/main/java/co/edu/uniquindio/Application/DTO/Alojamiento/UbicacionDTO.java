@@ -1,6 +1,4 @@
-package co.edu.uniquindio.Application.DTO;
-
-import co.edu.uniquindio.Application.Model.Rol;
+package co.edu.uniquindio.Application.DTO.Alojamiento;
 
 public record UbicacionDTO(
         String direccion,

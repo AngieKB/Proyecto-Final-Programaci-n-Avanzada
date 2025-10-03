@@ -1,5 +1,6 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Comentario;
 
+import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -13,6 +14,6 @@ public record ComentarDTO(
         @NotBlank @Length(max = 200) String comentario,
         @NotNull @Max(5) @Min(1) int calificacion,
         @NotNull LocalDateTime fecha,
-        @NotNull UsuarioDTO autor,
-        @NotNull Alojamiento alojamiento
+        @NotNull Long idAlojamiento,
+        @NotNull Long idUsuario
 ) { }

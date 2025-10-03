@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Alojamiento;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,6 +1,5 @@
-package co.edu.uniquindio.Application.DTO;
+package co.edu.uniquindio.Application.DTO.Reserva;
 
-import co.edu.uniquindio.Application.Model.Alojamiento;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 

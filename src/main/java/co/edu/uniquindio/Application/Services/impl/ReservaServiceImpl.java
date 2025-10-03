@@ -1,14 +1,12 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.CrearAlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.ReservaDTO;
-import co.edu.uniquindio.Application.Model.Alojamiento;
+import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
 import co.edu.uniquindio.Application.Model.EstadoReserva;
 import co.edu.uniquindio.Application.Model.Reserva;
 import co.edu.uniquindio.Application.Repository.ReservaRepository;
 import co.edu.uniquindio.Application.Services.ReservaService;
-import co.edu.uniquindio.Application.mappers.ReservaMapper;
-import lombok.NoArgsConstructor;
+import co.edu.uniquindio.Application.Mappers.ReservaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +32,7 @@ public class ReservaServiceImpl implements ReservaService {
         return null;
     }
     @Override
-    public void guardar(ReservaDTO reservadto) throws Exception{
+    public void guardar(RealizarReservaDTO reservadto) throws Exception{
         Reserva newReserva = reservaMapper.toEntity(reservadto);
         newReserva.setEstado(EstadoReserva.PENDIENTE);
         reservaRepository.save(newReserva);

@@ -29,7 +29,7 @@ public class Comentario {
     private Respuesta respuesta;
 
     @ManyToOne
-    @JoinColumn(name = "huesped_id")
+    @JoinColumn(name = "usuario_id")
     private Usuario huesped;
 
     @ManyToOne
