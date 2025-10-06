@@ -34,7 +34,7 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "huesped", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
