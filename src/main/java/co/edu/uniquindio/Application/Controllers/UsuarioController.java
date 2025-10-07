@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+        import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,26 +20,20 @@ public class UsuarioController {
 
     private final UsuarioServiceImpl usuarioService;
 
-    @PostMapping
-    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody CrearUsuarioDTO usuarioDTO) throws Exception {
-        usuarioService.create(usuarioDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido registrado"));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable String id, @Valid @RequestBody EditarUsuarioDTO usuarioDTO) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id, @Valid @RequestBody EditarUsuarioDTO usuarioDTO) throws Exception{
         usuarioService.edit(id, usuarioDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable String id) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) throws Exception{
         usuarioService.delete(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable String id) throws Exception{
+    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable Long id) throws Exception{
         usuarioService.get(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, null));
     }

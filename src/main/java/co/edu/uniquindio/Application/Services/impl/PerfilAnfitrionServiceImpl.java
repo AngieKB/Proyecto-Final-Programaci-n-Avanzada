@@ -3,7 +3,7 @@ package co.edu.uniquindio.Application.Services.impl;
 import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
-import co.edu.uniquindio.Application.Exceptions.RecursoNoEncontradoException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Mappers.PerfilAnfitrionMapper;
 import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
 import co.edu.uniquindio.Application.Repository.PerfilAnfitrionRepository;
@@ -28,7 +28,7 @@ public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
     @Override
     public PerfilAnfitrionDTO obtenerPerfil(Long id) {
         PerfilAnfitrion perfil = perfilAnfitrionRepository.findById(id)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Perfil de anfitrión con id " + id + " no encontrado"));
         return perfilAnfitrionMapper.toDTO(perfil);
     }
 
@@ -43,7 +43,7 @@ public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
     @Override
     public void actualizarPerfil(Long id, EditarAnfitrionDTO dto) {
         PerfilAnfitrion perfil = perfilAnfitrionRepository.findById(id)
-                .orElseThrow(() -> new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Perfil de anfitrión con id " + id + " no encontrado"));
         perfilAnfitrionMapper.updatePerfilAnfitrionFromDto(dto, perfil);
         perfilAnfitrionRepository.save(perfil);
     }
@@ -51,7 +51,7 @@ public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
     @Override
     public void eliminarPerfil(Long id) {
         if (!perfilAnfitrionRepository.existsById(id)) {
-            throw new RecursoNoEncontradoException("Perfil de anfitrión con id " + id + " no encontrado");
+            throw new ResourceNotFoundException("Perfil de anfitrión con id " + id + " no encontrado");
         }
         perfilAnfitrionRepository.deleteById(id);
     }

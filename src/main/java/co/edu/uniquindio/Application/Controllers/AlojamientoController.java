@@ -5,6 +5,7 @@ import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
+import co.edu.uniquindio.Application.Services.AlojamientoService;
 import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RequestMapping("/api/alojamiento")
 public class AlojamientoController {
 
-    private final AlojamientoServiceImpl alojamientoService;
+    private final AlojamientoService alojamientoService;
 
     @PostMapping
     public ResponseEntity<ResponseDTO<String>> crear(@Valid @RequestBody CrearAlojamientoDTO alojamientoDTO) throws Exception {
@@ -48,7 +49,7 @@ public class AlojamientoController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listarTodos(){
+    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listarTodos() throws Exception {
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarTodos());
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }

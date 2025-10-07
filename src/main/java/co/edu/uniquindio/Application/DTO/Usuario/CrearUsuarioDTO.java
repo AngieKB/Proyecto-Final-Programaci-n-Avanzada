@@ -1,19 +1,20 @@
 package co.edu.uniquindio.Application.DTO.Usuario;
 
 import co.edu.uniquindio.Application.Model.Rol;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public record CrearUsuarioDTO(
-    @NotBlank @Length(max=30) String nombre,
+    @NotBlank @Size(max=30) String nombre,
     @Email @NotBlank String email,
-    @NotBlank @Length(max=10) String telefono,
-    @NotBlank String password,
+    @NotBlank @Size(max=10) String telefono,
+    @NotBlank @Size(min=8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).*$",
+            message = "La contraseña debe contener al menos una letra mayúscula, una letra minúsucla, y un número"
+    )
+            String password,
     @NotNull Rol rol,
     @NotNull @Past LocalDate fechaNacimiento
 ){}

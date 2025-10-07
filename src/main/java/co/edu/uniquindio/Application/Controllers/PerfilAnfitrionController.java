@@ -5,6 +5,7 @@ import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class PerfilAnfitrionController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<String>> crearPerfil(@RequestBody CrearAnfitrionDTO dto) {
+    public ResponseEntity<ResponseDTO<String>> crearPerfil(@Valid @RequestBody CrearAnfitrionDTO dto) {
         perfilAnfitrionService.crearPerfil(dto);
         return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil creado exitosamente"));
     }
@@ -37,7 +38,7 @@ public class PerfilAnfitrionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> actualizarPerfil(@PathVariable Long id, @RequestBody EditarAnfitrionDTO dto) {
+    public ResponseEntity<ResponseDTO<String>> actualizarPerfil(@PathVariable Long id, @Valid @RequestBody EditarAnfitrionDTO dto) {
         perfilAnfitrionService.actualizarPerfil(id, dto);
         return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil actualizado exitosamente"));
     }

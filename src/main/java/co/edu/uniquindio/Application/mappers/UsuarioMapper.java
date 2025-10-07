@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.Mapping;
 public interface UsuarioMapper {
     UsuarioDTO toDTO(Usuario usuario);
     Usuario toEntity(CrearUsuarioDTO usuarioDTO);
-    void updateUsuarioFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
+    void updateUserFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
 }

@@ -55,21 +55,16 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body( new ResponseDTO<>(true, errors) );
     }
 
-    @ExceptionHandler(OperacionInvalidaException.class)
-    public ResponseEntity<Map<String, Object>> manejarOperacionInvalida(OperacionInvalidaException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("error", "Operación inválida");
-        error.put("message", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ResponseDTO<String>> invalidOperationHandler(InvalidOperationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ResponseDTO<>(true, ex.getMessage()));
     }
 
-    @ExceptionHandler(RecursoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> manejarRecursoNoEncontrado(RecursoNoEncontradoException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("error", "Recurso no encontrado");
-        error.put("message", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ResponseDTO<String>> resourceNotFoundHandler(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ResponseDTO<>(true, ex.getMessage()));
     }
+
 }
