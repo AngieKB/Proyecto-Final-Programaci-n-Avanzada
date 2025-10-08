@@ -57,7 +57,7 @@ public class ReservaServiceImpl implements ReservaService {
         reservaRepository.save(newReserva);
 
         emailService.sendMail(
-                new EmailDTO("Asunto", "Cuerpo mensaje", newReserva.getHuesped().getEmail())
+                new EmailDTO("CAGASTE", "Soy esteban, y si meto este código en un ciclo for, le puedo enviar 3000 correos", newReserva.getHuesped().getEmail())
         );
     }
 
