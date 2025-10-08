@@ -2,7 +2,8 @@ package co.edu.uniquindio.Application.Security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.time.Instant;
@@ -12,6 +13,9 @@ import java.util.Map;
 
 @Component
 public class JWTUtils {
+    @Value("${jwt.secret}")
+    private String secretKey;
+
 
     public String generateToken(String id, Map<String, String> claims) {
         Instant now = Instant.now();
@@ -30,9 +34,7 @@ public class JWTUtils {
         return jwtParser.parseSignedClaims(jwtString);
     }
 
-    //TODO: Haga que la clave secreta venga dada desde el archivo application.properties usando @Value("${jwt.secret}") para que no esté hardcodeada en el código. La clave debe tener al menos 32 caracteres.
     private SecretKey getKey(){
-        String secretKey = "secretsecretsecretsecretsecretsecretsecretsecret";
         byte[] secretKeyBytes = secretKey.getBytes();
         return Keys.hmacShaKeyFor(secretKeyBytes);
     }

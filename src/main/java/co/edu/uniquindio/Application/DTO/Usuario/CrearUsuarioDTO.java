@@ -15,6 +15,5 @@ public record CrearUsuarioDTO(
             message = "La contraseña debe contener al menos una letra mayúscula, una letra minúsucla, y un número"
     )
             String password,
-    @NotNull Rol rol,
     @NotNull @Past LocalDate fechaNacimiento
 ){}
