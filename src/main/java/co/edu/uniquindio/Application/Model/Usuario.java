@@ -16,9 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Usuario {
     @Id
-    @GeneratedValue
-    @Column(length = 20, nullable = false)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 20, nullable = false)    private Long id;
 
     private String nombre;
 

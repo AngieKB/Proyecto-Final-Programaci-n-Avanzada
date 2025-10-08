@@ -1,10 +1,12 @@
 package co.edu.uniquindio.Application.Services.impl;
 
+import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
 import co.edu.uniquindio.Application.Model.EstadoReserva;
 import co.edu.uniquindio.Application.Model.Reserva;
 import co.edu.uniquindio.Application.Repository.ReservaRepository;
+import co.edu.uniquindio.Application.Services.EmailService;
 import co.edu.uniquindio.Application.Services.ReservaService;
 import co.edu.uniquindio.Application.Mappers.ReservaMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class ReservaServiceImpl implements ReservaService {
     private final ReservaMapper reservaMapper;
     private final ReservaRepository reservaRepository;
+    private final EmailService emailService;
 
     @Override
     public void cancelarReserva(Long id) {
@@ -36,6 +39,8 @@ public class ReservaServiceImpl implements ReservaService {
         Reserva newReserva = reservaMapper.toEntity(reservadto);
         newReserva.setEstado(EstadoReserva.PENDIENTE);
         reservaRepository.save(newReserva);
+        emailService.sendMail(new EmailDTO("Asunto", "Cuerpo mensaje", "Correo destino"));
+
     }
 }
 

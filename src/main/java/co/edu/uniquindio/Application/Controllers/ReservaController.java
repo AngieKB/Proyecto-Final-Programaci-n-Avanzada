@@ -19,8 +19,8 @@ public class ReservaController {
     private final ReservaServiceImpl reservaService;
 
 
-    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody RealizarReservaDTO reservaDTO) throws Exception {
-        reservaService.guardar(reservaDTO);
+    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody RealizarReservaDTO realizarReservaDTO) throws Exception {
+        reservaService.guardar(realizarReservaDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido registrada"));
     }
 

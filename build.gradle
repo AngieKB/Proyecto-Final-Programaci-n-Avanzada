@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
+    implementation 'org.simplejavamail:simple-java-mail:8.12.6'
+    implementation 'org.simplejavamail:batch-module:8.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0'
     runtimeOnly 'org.postgresql:postgresql'
