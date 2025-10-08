@@ -67,7 +67,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void edit(Long id, EditarUsuarioDTO userDTO) throws Exception {
         Usuario usuario = getUsuarioById(id);
-        usuarioMapper.updateUserFromDto(userDTO, usuario);
+        usuarioMapper.updateUsuarioFromDto(userDTO, usuario);
         usuarioRepository.save(usuario);
     }
 

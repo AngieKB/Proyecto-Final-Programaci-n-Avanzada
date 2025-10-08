@@ -7,11 +7,13 @@ import co.edu.uniquindio.Application.Model.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
-import org.springframework.web.bind.annotation.Mapping;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UsuarioMapper {
-    UsuarioDTO toDTO(Usuario usuario);
+    @Mapping(target = "rol", constant = "HUESPED")
+    @Mapping(target = "fechaCreacion", expression = "java(java.time.LocalDateTime.now())")
     Usuario toEntity(CrearUsuarioDTO usuarioDTO);
-    void updateUserFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
+    UsuarioDTO toDTO(Usuario usuario);
+    void updateUsuarioFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
 }
