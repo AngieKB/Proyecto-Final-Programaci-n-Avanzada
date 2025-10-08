@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +37,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Usuario newUsuario = usuarioMapper.toEntity(usuarioDTO);
+        System.out.println("Entidad mapeada: " + newUsuario.getEmail()+", "+newUsuario.getNombre());
         newUsuario.setPassword(passwordEncoder.encode(usuarioDTO.password()));
+        newUsuario.setFechaCreacion(LocalDateTime.now());
         usuarioRepository.save(newUsuario);
     }
 

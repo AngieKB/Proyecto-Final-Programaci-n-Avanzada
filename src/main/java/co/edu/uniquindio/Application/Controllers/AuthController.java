@@ -25,6 +25,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody CrearUsuarioDTO userDTO) throws Exception{
+        System.out.println("Nombre: " + userDTO.nombre());
+        System.out.println("Email: " + userDTO.email());
+        System.out.println("Telefono: " + userDTO.telefono());
         userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO<>(false, "El registro ha sido exitoso"));
     }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReservaController {
     private final ReservaServiceImpl reservaService;
 
-
+    @PostMapping("/crear")
     public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody RealizarReservaDTO realizarReservaDTO) throws Exception {
         reservaService.guardar(realizarReservaDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido registrada"));
