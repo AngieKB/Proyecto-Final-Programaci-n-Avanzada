@@ -9,7 +9,9 @@ import co.edu.uniquindio.Application.Services.AlojamientoService;
 import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -24,28 +26,28 @@ public class AlojamientoController {
 
     private final AlojamientoService alojamientoService;
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<ResponseDTO<String>> crear(@Valid @ModelAttribute CrearAlojamientoDTO alojamientoDTO) throws Exception {
         alojamientoService.guardar(alojamientoDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El alojamiento ha sido registrado"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO<>(false, "El alojamiento ha sido registrado"));
     }
 
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> editar(@PathVariable Long id, @Valid @RequestBody AlojamientoDTO alojamientoDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
         alojamientoService.editarAlojamiento(id, alojamientoDTO, ubicacionDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
+        return ResponseEntity.ok(new ResponseDTO<>(false, "El alojamiento ha sido actualizado"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> eliminar(@PathVariable Long id) throws Exception{
         alojamientoService.eliminar(id);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<AlojamientoDTO>> obtenerPorId(@PathVariable Long id) throws Exception{
-        alojamientoService.obtenerPorId(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, alojamientoService.obtenerPorId(id)));
     }
 
@@ -55,24 +57,24 @@ public class AlojamientoController {
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
-    @GetMapping("/buscarPorCiudad")
+    @GetMapping("/buscar/ciudad")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorCiudad(@RequestParam String ciudad) throws Exception {
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorCiudad(ciudad));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
-    @GetMapping("/buscarPorFechas")
+    @GetMapping("/buscar/fechas")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorFechas(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorFechas(fechaInicio,fechaFin));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
-    @GetMapping("/buscarPorPrecio")
+    @GetMapping("/buscar/precio")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
-    @GetMapping("/buscarPorServicios")
+    @GetMapping("/buscar/" +"servicios")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorServicios(@RequestParam List<String> servicios) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorServicios(servicios));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
