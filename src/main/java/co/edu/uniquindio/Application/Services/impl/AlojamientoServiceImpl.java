@@ -9,25 +9,42 @@ import co.edu.uniquindio.Application.Model.Comentario;
 import co.edu.uniquindio.Application.Model.Ubicacion;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
+import co.edu.uniquindio.Application.Services.ImageService;
 import lombok.RequiredArgsConstructor;
 import co.edu.uniquindio.Application.Mappers.AlojamientoMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static co.edu.uniquindio.Application.Model.EstadoAlojamiento.ACTIVO;
 
 @Service
 @RequiredArgsConstructor
 public class AlojamientoServiceImpl implements AlojamientoService {
     private final AlojamientoRepository alojamientoRepository;
     private final AlojamientoMapper alojamientoMapper;
+    private final ImageService imageService;
 
 
     @Override
-    public void guardar(CrearAlojamientoDTO alojamientodto) throws Exception{
-        Alojamiento newAlojamiento = alojamientoMapper.toEntity(alojamientodto);
-        alojamientoRepository.save(newAlojamiento);
+    public void guardar(CrearAlojamientoDTO dto) throws Exception {
+        // Subir imágenes y obtener URLs
+        List<String> urls = new ArrayList<>();
+        for (MultipartFile imagen : dto.galeria()) {
+            Map result = imageService.upload(imagen);
+            urls.add(result.get("url").toString());  // guardamos la URL pública
+        }
+        Alojamiento alojamiento = alojamientoMapper.toEntity(dto);
+
+        alojamiento.setGaleria(urls);
+        alojamiento.setEstado(ACTIVO);
+
+        alojamientoRepository.save(alojamiento);
     }
 
     @Override

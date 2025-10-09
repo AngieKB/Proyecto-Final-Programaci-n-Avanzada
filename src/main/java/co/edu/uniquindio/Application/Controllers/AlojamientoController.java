@@ -24,11 +24,12 @@ public class AlojamientoController {
 
     private final AlojamientoService alojamientoService;
 
-    @PostMapping
-    public ResponseEntity<ResponseDTO<String>> crear(@Valid @RequestBody CrearAlojamientoDTO alojamientoDTO) throws Exception {
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<ResponseDTO<String>> crear(@Valid @ModelAttribute CrearAlojamientoDTO alojamientoDTO) throws Exception {
         alojamientoService.guardar(alojamientoDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido registrado"));
+        return ResponseEntity.ok(new ResponseDTO<>(false, "El alojamiento ha sido registrado"));
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> editar(@PathVariable Long id, @Valid @RequestBody AlojamientoDTO alojamientoDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
