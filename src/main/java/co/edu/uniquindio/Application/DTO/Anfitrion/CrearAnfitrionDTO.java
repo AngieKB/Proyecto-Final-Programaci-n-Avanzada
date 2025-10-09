@@ -20,6 +20,6 @@ public record CrearAnfitrionDTO(
         @NotNull @Past LocalDate fechaNacimiento,
         @NotBlank @Length(max = 300) String descripcion,
         @NotNull List<String> documentosLegales,
-        @NotBlank String usuarioId
+        @NotNull Long usuarioId
 ) {
 }

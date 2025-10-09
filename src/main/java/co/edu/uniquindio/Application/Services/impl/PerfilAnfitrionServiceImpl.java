@@ -6,7 +6,10 @@ import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
 import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Mappers.PerfilAnfitrionMapper;
 import co.edu.uniquindio.Application.Model.PerfilAnfitrion;
+import co.edu.uniquindio.Application.Model.Rol;
+import co.edu.uniquindio.Application.Model.Usuario;
 import co.edu.uniquindio.Application.Repository.PerfilAnfitrionRepository;
+import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +22,14 @@ import java.util.stream.Collectors;
 public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
     private final PerfilAnfitrionRepository perfilAnfitrionRepository;
     private final PerfilAnfitrionMapper perfilAnfitrionMapper;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public void crearPerfil(CrearAnfitrionDTO dto) {
         perfilAnfitrionRepository.save(perfilAnfitrionMapper.toEntity(dto));
+        Usuario usuario = usuarioRepository.findById(dto.usuarioId()).orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + dto.usuarioId() + " no encontrado"));
+        usuario.setRol(Rol.ANFITRION);
+        usuarioRepository.save(usuario);
     }
 
     @Override
