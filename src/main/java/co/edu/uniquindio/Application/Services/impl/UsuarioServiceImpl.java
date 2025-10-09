@@ -128,7 +128,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         return Map.of(
                 "email", usuario.getEmail(),
                 "name", usuario.getNombre(),
-                "role", "ROLe_"+usuario.getRol().name()
+                "role", "ROLE_"+usuario.getRol().name()
         );
     }
 
