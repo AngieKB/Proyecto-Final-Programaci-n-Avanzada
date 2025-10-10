@@ -8,6 +8,7 @@ import co.edu.uniquindio.Application.Exceptions.ValueConflictException;
 import co.edu.uniquindio.Application.Model.Usuario;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Security.JWTUtils;
+import co.edu.uniquindio.Application.Services.ImageService;
 import co.edu.uniquindio.Application.Services.UsuarioService;
 import co.edu.uniquindio.Application.Mappers.UsuarioMapper;
 import jakarta.transaction.Transactional;
@@ -28,6 +29,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioMapper usuarioMapper;
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ImageService imageService;
     private final JWTUtils jwtUtils;
 
     @Override
@@ -39,7 +41,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario newUsuario = usuarioMapper.toEntity(usuarioDTO);
         System.out.println("Entidad mapeada: " + newUsuario.getEmail()+", "+newUsuario.getNombre());
         newUsuario.setPassword(passwordEncoder.encode(usuarioDTO.password()));
-        newUsuario.setFechaCreacion(LocalDateTime.now());
+        Map foto = imageService.upload(usuarioDTO.fotoUrl());
+        String fotoUrl = foto.get("url").toString();
+        newUsuario.setFotoUrl(fotoUrl);
         usuarioRepository.save(newUsuario);
     }
 

@@ -1,9 +1,6 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.Alojamiento.MetricasDTO;
-import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.*;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.Comentario;
 import co.edu.uniquindio.Application.Model.Ubicacion;
@@ -40,9 +37,10 @@ public class AlojamientoServiceImpl implements AlojamientoService {
             urls.add(result.get("url").toString());  // guardamos la URL pública
         }
         Alojamiento alojamiento = alojamientoMapper.toEntity(dto);
-
+        Ubicacion ubicacion = alojamientoMapper.crearUbicacion(dto);
         alojamiento.setGaleria(urls);
         alojamiento.setEstado(ACTIVO);
+        alojamiento.setUbicacion(ubicacion);
 
         alojamientoRepository.save(alojamiento);
     }
@@ -91,8 +89,8 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public List<AlojamientoDTO> buscarPorCiudad(String ciudad) {
-        return alojamientoRepository.findByUbicacionCiudadContainingIgnoreCase(ciudad).stream().map(alojamientoMapper::toDTO).toList();
+    public List<ResumenAlojamientoDTO> buscarPorCiudad(String ciudad) {
+        return alojamientoRepository.findByUbicacionCiudadContainingIgnoreCaseAndEstado(ciudad,ACTIVO).stream().map(alojamientoMapper::toResumenDTO).toList();
     }
 
     @Override
@@ -101,13 +99,13 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public List<AlojamientoDTO> buscarPorPrecio(double min, double max) {
-        return alojamientoRepository.findByPrecioNocheBetween(min,max).stream().map(alojamientoMapper::toDTO).toList();
+    public List<ResumenAlojamientoDTO> buscarPorPrecio(double min, double max) {
+        return alojamientoRepository.findByPrecioNocheBetweenAndEstado(min,max,ACTIVO).stream().map(alojamientoMapper::toResumenDTO).toList();
     }
 
     @Override
-    public List<AlojamientoDTO> buscarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        return alojamientoRepository.findByDate(fechaInicio,fechaFin).stream().map(alojamientoMapper::toDTO).toList();
+    public List<ResumenAlojamientoDTO> buscarPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        return alojamientoRepository.findByDate(fechaInicio,fechaFin,ACTIVO).stream().map(alojamientoMapper::toResumenDTO).toList();
     }
 
     @Override

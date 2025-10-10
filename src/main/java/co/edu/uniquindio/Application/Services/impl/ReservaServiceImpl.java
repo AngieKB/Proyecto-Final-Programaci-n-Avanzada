@@ -54,11 +54,18 @@ public class ReservaServiceImpl implements ReservaService {
         newReserva.setHuesped(huesped);
         newReserva.setAlojamiento(alojamiento);
 
+        Double valorTotal = calcularValorTotal(newReserva);
+        newReserva.setTotal(valorTotal);
+
         reservaRepository.save(newReserva);
 
         emailService.sendMail(
-                new EmailDTO("CAGASTE", "Soy esteban, y si meto este código en un ciclo for, le puedo enviar 3000 correos", newReserva.getHuesped().getEmail())
+                new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(), "Su reserva se realizó satisfactoriamente", newReserva.getHuesped().getEmail())
         );
+    }
+    public double calcularValorTotal(Reserva reserva){
+        long dias = reserva.getFechaCheckOut().toLocalDate().toEpochDay() - reserva.getFechaCheckIn().toLocalDate().toEpochDay();
+        return dias * reserva.getAlojamiento().getPrecioNoche()* reserva.getCantidadHuespedes();
     }
 
 }

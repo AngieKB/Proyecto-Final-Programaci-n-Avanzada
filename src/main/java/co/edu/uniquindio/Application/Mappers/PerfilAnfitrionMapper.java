@@ -14,7 +14,6 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PerfilAnfitrionMapper {
     PerfilAnfitrionDTO toDTO(PerfilAnfitrion entity);
-    //@Mapping(target = "rol", constant = "HUESPED")
     PerfilAnfitrion toEntity(CrearAnfitrionDTO dto);
     void updatePerfilAnfitrionFromDto(EditarAnfitrionDTO dto, @MappingTarget PerfilAnfitrion anfitrion);
 }

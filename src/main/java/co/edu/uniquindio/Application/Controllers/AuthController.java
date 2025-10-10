@@ -24,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody CrearUsuarioDTO userDTO) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> create(@Valid @ModelAttribute CrearUsuarioDTO userDTO) throws Exception{
         System.out.println("Nombre: " + userDTO.nombre());
         System.out.println("Email: " + userDTO.email());
         System.out.println("Telefono: " + userDTO.telefono());

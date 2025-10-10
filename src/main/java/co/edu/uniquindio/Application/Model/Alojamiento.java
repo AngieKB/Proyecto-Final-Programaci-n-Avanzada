@@ -42,6 +42,9 @@ public class Alojamiento {
 
     private LocalDateTime fechaCreacion;
 
+    @Column(nullable = false)
+    private Double calificacionPromedio = 0.0;
+
     @OneToMany(mappedBy = "alojamiento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios = new ArrayList<>();
 

@@ -4,6 +4,7 @@ package co.edu.uniquindio.Application.Controllers;
 import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
+import co.edu.uniquindio.Application.DTO.Alojamiento.ResumenAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
 import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
@@ -58,20 +59,20 @@ public class AlojamientoController {
     }
 
     @GetMapping("/buscar/ciudad")
-    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorCiudad(@RequestParam String ciudad) throws Exception {
-        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorCiudad(ciudad));
+    public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorCiudad(@RequestParam String ciudad) throws Exception {
+        List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorCiudad(ciudad));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
     @GetMapping("/buscar/fechas")
-    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorFechas(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) throws Exception{
-        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorFechas(fechaInicio,fechaFin));
+    public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorFechas(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) throws Exception{
+        List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorFechas(fechaInicio,fechaFin));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
     @GetMapping("/buscar/precio")
-    public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
-        List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
+    public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
+        List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
     @GetMapping("/buscar/" +"servicios")

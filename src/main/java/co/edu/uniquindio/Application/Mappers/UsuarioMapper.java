@@ -11,6 +11,7 @@ import org.mapstruct.*;
 public interface UsuarioMapper {
     @Mapping(target = "rol", constant = "HUESPED")
     @Mapping(target = "fechaCreacion", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "fotoUrl", ignore = true)
     Usuario toEntity(CrearUsuarioDTO usuarioDTO);
     UsuarioDTO toDTO(Usuario usuario);
     void updateUsuarioFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);

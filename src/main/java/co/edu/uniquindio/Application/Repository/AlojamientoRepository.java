@@ -15,12 +15,13 @@ import java.util.List;
 public interface AlojamientoRepository extends JpaRepository<Alojamiento, Long> {
 
     List<Alojamiento> findByEstado(EstadoAlojamiento estado);
-    List<Alojamiento> findByPrecioNocheBetween(Double precioMin, Double precioMax);
-    List<Alojamiento> findByUbicacionCiudadContainingIgnoreCase(String ciudad);
+    List<Alojamiento> findByPrecioNocheBetweenAndEstado(Double precioMin, Double precioMax,EstadoAlojamiento estado);
+    List<Alojamiento> findByUbicacionCiudadContainingIgnoreCaseAndEstado(String ciudad, EstadoAlojamiento estado);
     List<Alojamiento> findByAnfitrionId(Long id);
 
     @Query("SELECT a FROM Alojamiento a " +
-            "WHERE NOT EXISTS (" +
+            "WHERE a.estado = :estado " +
+            "AND NOT EXISTS (" +
             "   SELECT r FROM Reserva r " +
             "   WHERE r.alojamiento = a " +
             "   AND r.fechaCheckIn < :fin " +
@@ -28,7 +29,8 @@ public interface AlojamientoRepository extends JpaRepository<Alojamiento, Long> 
             ")")
     List<Alojamiento> findByDate(
             @Param("inicio") LocalDateTime inicio,
-            @Param("fin") LocalDateTime fin
+            @Param("fin") LocalDateTime fin,
+            @Param("estado") EstadoAlojamiento estado
     );
 
 

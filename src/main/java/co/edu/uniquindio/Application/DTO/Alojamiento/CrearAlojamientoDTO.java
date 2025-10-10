@@ -16,5 +16,6 @@ public record CrearAlojamientoDTO(
         @NotNull Double latitud,
         @NotNull Double longitud,
         @NotNull Double precioNoche,
-        @NotNull Integer capacidadMax
+        @NotNull Integer capacidadMax,
+        @NotNull String pais
 ) {}
