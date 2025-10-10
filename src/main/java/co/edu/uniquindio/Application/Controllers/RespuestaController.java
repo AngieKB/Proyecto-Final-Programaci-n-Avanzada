@@ -26,7 +26,7 @@ public class RespuestaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<RespuestaDTO>> obtenerRespuestaPorId(@PathVariable Long id) {
+    public ResponseEntity<ResponseDTO<RespuestaDTO>> obtenerRespuestaPorId(@PathVariable Long id) throws Exception {
         RespuestaDTO respuestaDTO = respuestaService.obtener(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, respuestaDTO));
     }

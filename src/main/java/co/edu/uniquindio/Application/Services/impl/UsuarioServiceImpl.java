@@ -115,7 +115,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         emailService.sendMail(
                 new EmailDTO("Tu contraseña se ha actualizado correctamente",
-                        "Usted realizó un cambio de contraseña", user.getEmail())
+                        "Usted realizó un cambio de contraseña",
+                        user.getEmail())
         );
     }
 
@@ -142,7 +143,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void sendVerificationCode(ForgotPasswordDTO forgotPasswordDTO) throws Exception {
         Usuario usuario = usuarioRepository.findByEmail(forgotPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
         emailService.sendMail(
-                new EmailDTO("Recuperación de contraseña", "Su código de verificación es:" , usuario.getEmail())
+                new EmailDTO("Recuperación de contraseña", "Su código de verificación es: " ,
+                        usuario.getEmail())
         );
     }
 

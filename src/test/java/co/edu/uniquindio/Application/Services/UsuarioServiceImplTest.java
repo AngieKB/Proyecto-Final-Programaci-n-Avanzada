@@ -28,7 +28,6 @@ public class UsuarioServiceImplTest {
 
     @Autowired
     private  UsuarioRepository usuarioRepository;
-    
 
     //por el momento las images las estoy poniendo así, pero luego miramos como mejorarlo
     @Test

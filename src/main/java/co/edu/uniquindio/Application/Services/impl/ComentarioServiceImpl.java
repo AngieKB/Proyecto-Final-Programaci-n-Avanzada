@@ -74,7 +74,13 @@ public class ComentarioServiceImpl implements ComentarioService {
         alojamientoRepository.save(alojamiento);
         emailService.sendMail(
                 new EmailDTO("Nuevo comentario en: " + alojamiento.getTitulo(),
-                        "El usuario " + usuario.getNombre() + "realizó un comentario en el alojamiento " + alojamiento.getTitulo(), alojamiento.getAnfitrion().getUsuario().getEmail())
+                        "El usuario " + usuario.getNombre() + " realizó un comentario en el alojamiento " + alojamiento.getTitulo(),
+                        alojamiento.getAnfitrion().getUsuario().getEmail())
+        );
+        emailService.sendMail(
+                new EmailDTO("Has hecho un comentario en: " + alojamiento.getTitulo(),
+                        "Usted ha realizado un comentario en el alojamiento " + alojamiento.getTitulo(),
+                        usuario.getEmail())
         );
     }
 

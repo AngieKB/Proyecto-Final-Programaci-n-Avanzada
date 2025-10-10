@@ -49,7 +49,16 @@ public class ReservaServiceImpl implements ReservaService {
             try {
                 emailService.sendMail(
                         new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(),
-                                "El usuario " + reserva.getHuesped().getNombre() + "canceló su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() + "en el alojamiento " + reserva.getAlojamiento().getTitulo(), reserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
+                                "El usuario " + reserva.getHuesped().getNombre() +
+                                "canceló su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() +
+                                "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
+                                reserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
+                );
+                emailService.sendMail(
+                        new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(),
+                                "Ha cancelado su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() +
+                                "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
+                                reserva.getHuesped().getEmail())
                 );
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -122,11 +131,19 @@ public class ReservaServiceImpl implements ReservaService {
         emailService.sendMail(
                 new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(),
                         "Su reserva se realizó satisfactoriamente con los siguientes datos. \\nDía de llegada: " + newReserva.getFechaCheckIn()
-                        + "\\nDía de salida: " + newReserva.getFechaCheckOut(),
+                        + "\nDía de salida: " + newReserva.getFechaCheckOut()
+                        + "\nCantidad de huéspedes: " + newReserva.getCantidadHuespedes()
+                        + "\nEn el alojamiento: " + newReserva.getAlojamiento().getTitulo()
+                        + "\nPor un total de: " + newReserva.getTotal(),
                         newReserva.getHuesped().getEmail())
         );
         emailService.sendMail(
-                new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(), "Un usuario realizó una reserva", newReserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
+                new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(),
+                        "Una reserva se realizó en el alojamiento " + newReserva.getAlojamiento().getTitulo() + " con los siguientes datos. \\nDía de llegada: " + newReserva.getFechaCheckIn()
+                                + "\nDía de salida: " + newReserva.getFechaCheckOut()
+                                + "\nCantidad de huéspedes: " + newReserva.getCantidadHuespedes()
+                                + "\nPor un total de: " + newReserva.getTotal(),
+                        newReserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
         );
     }
     @Override
