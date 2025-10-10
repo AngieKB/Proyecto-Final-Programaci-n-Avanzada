@@ -2,10 +2,7 @@ package co.edu.uniquindio.Application.Controllers;
 
 import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaAlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.*;
 import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import jakarta.validation.Valid;
@@ -29,7 +26,7 @@ public class ReservaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id, @Valid @RequestBody ReservaDTO reservaDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id, @Valid @RequestBody EditarReservaDTO reservaDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
         reservaService.editarReserva(id, reservaDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
     }

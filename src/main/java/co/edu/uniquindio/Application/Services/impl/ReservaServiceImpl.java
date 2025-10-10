@@ -1,10 +1,7 @@
 package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.EmailDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaAlojamientoDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
-import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.*;
 import co.edu.uniquindio.Application.Exceptions.BadCredentialsException;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.EstadoReserva;
@@ -75,7 +72,21 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public void editarReserva(Long id, ReservaDTO dto){}
+    public void editarReserva(Long id, EditarReservaDTO dto) {
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe una reserva con el id " + id));
+
+        if (reserva.getEstado() == EstadoReserva.CANCELADA) {
+            throw new RuntimeException("No se puede editar una reserva cancelada.");
+        }
+
+        // Usar mapper para actualizar los campos del DTO en la entidad existente
+        reservaMapper.updateReservaFromDTO(dto, reserva);
+
+        // Guardar cambios
+        reservaRepository.save(reserva);
+    }
+
 
     @Override
     public List<ReservaUsuarioDTO> obtenerReservasPorIdHuesped(Long id) {

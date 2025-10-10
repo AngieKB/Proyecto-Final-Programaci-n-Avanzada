@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 
 public class Ubicacion {
+
     private String direccion;
     private String ciudad;
     private String pais;
