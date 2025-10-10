@@ -79,9 +79,4 @@ public class RestExceptionHandler {
                 .body(new ResponseDTO<>(true, ex.getMessage()));
     }
 
-    //Este es para los errores 500 - error interno.
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDTO<String>> generalExceptionHandler(Exception e) {
-        return ResponseEntity.internalServerError().body(new ResponseDTO<>(true, e.getMessage()));
-    }
 }
