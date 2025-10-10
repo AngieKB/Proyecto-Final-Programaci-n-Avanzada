@@ -10,6 +10,7 @@ import co.edu.uniquindio.Application.Services.ImageService;
 import lombok.RequiredArgsConstructor;
 import co.edu.uniquindio.Application.Mappers.AlojamientoMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import static co.edu.uniquindio.Application.Model.EstadoAlojamiento.ACTIVO;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AlojamientoServiceImpl implements AlojamientoService {
     private final AlojamientoRepository alojamientoRepository;
     private final AlojamientoMapper alojamientoMapper;

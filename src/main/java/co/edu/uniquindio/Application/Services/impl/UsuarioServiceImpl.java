@@ -11,11 +11,11 @@ import co.edu.uniquindio.Application.Security.JWTUtils;
 import co.edu.uniquindio.Application.Services.ImageService;
 import co.edu.uniquindio.Application.Services.UsuarioService;
 import co.edu.uniquindio.Application.Mappers.UsuarioMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioMapper usuarioMapper;

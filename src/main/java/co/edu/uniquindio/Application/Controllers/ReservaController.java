@@ -4,12 +4,15 @@ import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,12 +36,13 @@ public class ReservaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) throws Exception{
         reservaService.cancelarReserva(id);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
+        return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido cancelada"));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable Long id) throws Exception{
-        reservaService.obtenerPorId(id);
-        return ResponseEntity.ok(new ResponseDTO<>(false, null));
+    @GetMapping("/mis-reservas/{usuarioId}")
+    public ResponseEntity<ResponseDTO<List<ReservaUsuarioDTO>>> obtenerMisReservas(@PathVariable Long usuarioId) {
+        List<ReservaUsuarioDTO> reservas = reservaService.obtenerReservasPorId(usuarioId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, reservas));
     }
+
 }
