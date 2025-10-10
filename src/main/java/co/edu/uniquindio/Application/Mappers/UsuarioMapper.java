@@ -4,12 +4,10 @@ import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Model.Usuario;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UsuarioMapper {
     @Mapping(target = "rol", constant = "HUESPED")
     @Mapping(target = "fechaCreacion", expression = "java(java.time.LocalDateTime.now())")
