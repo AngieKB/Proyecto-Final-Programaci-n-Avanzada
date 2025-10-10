@@ -40,6 +40,18 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body( new ResponseDTO<>(true, ex.getMessage()) );
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ResponseDTO<String>> accessDeniedHandler(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ResponseDTO<>(true, "Access denied: " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ResponseDTO<String>> badCredentialsHandler(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ResponseDTO<>(true, "Invalid username or password"));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDTO<String>> exceptionHandler (Exception e){
         return ResponseEntity.internalServerError().body( new ResponseDTO<>(true, e.getMessage()) );
@@ -67,4 +79,9 @@ public class RestExceptionHandler {
                 .body(new ResponseDTO<>(true, ex.getMessage()));
     }
 
+    //Este es para los errores 500 - error interno.
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDTO<String>> generalExceptionHandler(Exception e) {
+        return ResponseEntity.internalServerError().body(new ResponseDTO<>(true, e.getMessage()));
+    }
 }
