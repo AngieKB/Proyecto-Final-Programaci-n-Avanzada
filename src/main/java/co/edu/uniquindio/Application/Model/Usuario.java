@@ -48,4 +48,11 @@ public class Usuario {
     private PerfilAnfitrion perfilAnfitrion;
 
     //private UserStatus estadoUsuario;
+
+    @Column(name = "codigo_verificacion")
+    private String codigoVerificacion;
+
+    @Column(name = "codigo_expira_en")
+    private LocalDateTime codigoExpiraEn;
+
 }

@@ -109,14 +109,34 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     @Override
     public void resetPassword(ResetPasswordDTO resetPasswordDTO) throws Exception {
-        Usuario user = usuarioRepository.findByEmail(resetPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
+        Usuario usuario = usuarioRepository.findByEmail(resetPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
 
-        //TODO validar que el código que viene en el DTO sea igual al que se envió por el email del usuario, y que no haya expirado. Luego actualizar la contraseña y eliminar el código usado.
+        // Se verifica que el código coincide
+        if (usuario.getCodigoVerificacion() == null ||
+                !usuario.getCodigoVerificacion().equals(resetPasswordDTO.verificationCode())) {
+            throw new ValidationException("El código de verificación es incorrecto");
+        }
+
+        // Se verifica que el código no haya expirado
+        if (usuario.getCodigoExpiraEn() == null || usuario.getCodigoExpiraEn().isBefore(LocalDateTime.now())) {
+            usuario.setCodigoVerificacion(null);
+            usuario.setCodigoExpiraEn(null);
+            throw new ValidationException("El código de verificación ha expirado");
+        }
+
+        // Actualizamos la contraseña
+        usuario.setPassword(passwordEncoder.encode(resetPasswordDTO.newPassword()));
+
+        //Se limpia el código usado
+        usuario.setCodigoVerificacion(null);
+        usuario.setCodigoExpiraEn(null);
+
+        usuarioRepository.save(usuario);
 
         emailService.sendMail(
                 new EmailDTO("Tu contraseña se ha actualizado correctamente",
                         "Usted realizó un cambio de contraseña",
-                        user.getEmail())
+                        usuario.getEmail())
         );
     }
 
@@ -141,10 +161,24 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void sendVerificationCode(ForgotPasswordDTO forgotPasswordDTO) throws Exception {
-        Usuario usuario = usuarioRepository.findByEmail(forgotPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
+        Usuario usuario = usuarioRepository.findByEmail(forgotPasswordDTO.email())
+                .orElseThrow(() -> new NotFoundException("El usuario no existe"));
+
+        // Generar un código aleatorio de 6 dígitos
+        String codigo = String.valueOf((int)(Math.random() * 900000) + 100000);
+
+        // Guardar el código y su fecha de expiración
+        usuario.setCodigoVerificacion(codigo);
+        usuario.setCodigoExpiraEn(LocalDateTime.now().plusMinutes(10));
+        usuarioRepository.save(usuario);
+
+        // Enviar el correo
         emailService.sendMail(
-                new EmailDTO("Recuperación de contraseña", "Su código de verificación es: " ,
-                        usuario.getEmail())
+                new EmailDTO(
+                        "Recuperación de contraseña",
+                        "Su código de verificación es: " + codigo + "\nEste código expira en 10 minutos.",
+                        usuario.getEmail()
+                )
         );
     }
 

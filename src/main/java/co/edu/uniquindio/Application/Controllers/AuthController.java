@@ -1,8 +1,10 @@
 package co.edu.uniquindio.Application.Controllers;
 
+import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.TokenDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.*;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
+import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
 import co.edu.uniquindio.Application.Services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UsuarioService userService;
+    private final PerfilAnfitrionService perfilAnfitrionService;
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO<TokenDTO>> login(@Valid @RequestBody LoginDTO loginDTO) throws Exception{
@@ -30,6 +33,12 @@ public class AuthController {
         System.out.println("Telefono: " + userDTO.telefono());
         userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO<>(false, "El registro ha sido exitoso"));
+    }
+
+    @PostMapping("/host-register")
+    public ResponseEntity<ResponseDTO<String>> crearPerfilAnfitrion(@Valid @RequestBody CrearAnfitrionDTO dto) {
+        perfilAnfitrionService.crearPerfil(dto);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil creado exitosamente"));
     }
 
     @PostMapping("/forgot-password")

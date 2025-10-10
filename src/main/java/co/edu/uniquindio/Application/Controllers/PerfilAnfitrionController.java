@@ -21,12 +21,6 @@ public class PerfilAnfitrionController {
         this.perfilAnfitrionService = perfilAnfitrionService;
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseDTO<String>> crearPerfil(@Valid @RequestBody CrearAnfitrionDTO dto) {
-        perfilAnfitrionService.crearPerfil(dto);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil creado exitosamente"));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<PerfilAnfitrionDTO>> obtenerPerfil(@PathVariable Long id) {
         return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.obtenerPerfil(id)));

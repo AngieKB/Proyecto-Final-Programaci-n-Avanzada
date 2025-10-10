@@ -12,6 +12,8 @@ public interface UsuarioMapper {
     @Mapping(target = "rol", constant = "HUESPED")
     @Mapping(target = "fechaCreacion", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "fotoUrl", ignore = true)
+    @Mapping(target = "codigoVerificacion", ignore = true)
+    @Mapping(target = "codigoExpiraEn", ignore = true)
     Usuario toEntity(CrearUsuarioDTO usuarioDTO);
     UsuarioDTO toDTO(Usuario usuario);
     void updateUsuarioFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
