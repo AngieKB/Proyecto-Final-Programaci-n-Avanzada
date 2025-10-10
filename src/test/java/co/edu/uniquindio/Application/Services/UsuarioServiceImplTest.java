@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 @TestPropertySource(properties = "jwt.secret=MiSecretoSuperSeguro123")

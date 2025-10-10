@@ -1,9 +1,7 @@
 package co.edu.uniquindio.Application.Controllers;
 
-import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
-import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
+import co.edu.uniquindio.Application.DTO.Usuario.*;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
-import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
 import co.edu.uniquindio.Application.Services.impl.UsuarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +40,11 @@ public class UsuarioController {
     public ResponseEntity<ResponseDTO<List<UsuarioDTO>>> listAll(){
         List<UsuarioDTO> list = new ArrayList<>(usuarioService.listAll());
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @PutMapping("/{id}/cambiar-password")
+    public ResponseEntity<ResponseDTO<String>> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO, @PathVariable Long id) throws Exception{
+        usuarioService.changePassword(id, changePasswordDTO);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Contraseña actualizada exitosamente"));
     }
 }

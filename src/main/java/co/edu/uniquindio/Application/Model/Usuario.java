@@ -48,5 +48,4 @@ public class Usuario {
     private PerfilAnfitrion perfilAnfitrion;
 
     //private UserStatus estadoUsuario;
-
 }

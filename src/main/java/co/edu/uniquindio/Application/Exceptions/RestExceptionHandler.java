@@ -20,11 +20,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ResponseDTO<String>> noResourceFoundExceptionHandler(NoResourceFoundException ex){
-        return ResponseEntity.status(404).body( new ResponseDTO<>(true, "El recurso solicitado no existe") );
-    }
-
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ResponseDTO<String>> notFoundExceptionHandler(NotFoundException ex){
         return ResponseEntity.status(404).body( new ResponseDTO<>(true, ex.getMessage()) );
@@ -78,6 +73,4 @@ public class RestExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ResponseDTO<>(true, ex.getMessage()));
     }
-
-
 }

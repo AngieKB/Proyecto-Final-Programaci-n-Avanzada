@@ -3,13 +3,14 @@ package co.edu.uniquindio.Application.Services.impl;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarioDTO;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
-import co.edu.uniquindio.Application.Model.Alojamiento;
-import co.edu.uniquindio.Application.Model.Comentario;
-import co.edu.uniquindio.Application.Model.EstadoReserva;
-import co.edu.uniquindio.Application.Model.Reserva;
+import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
+import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ValidationException;
+import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
 import co.edu.uniquindio.Application.Repository.ComentarioRepository;
 import co.edu.uniquindio.Application.Repository.ReservaRepository;
+import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Services.ComentarioService;
 import co.edu.uniquindio.Application.Mappers.ComentarioMapper;
 import co.edu.uniquindio.Application.Services.EmailService;
@@ -28,28 +29,29 @@ public class ComentarioServiceImpl implements ComentarioService {
     private final ReservaRepository reservaRepository;
     private final AlojamientoRepository alojamientoRepository;
     private final EmailService emailService;
+    private final UsuarioRepository usuarioRepository;
 
 
     @Override
     public void comentar(Long reservaId, ComentarDTO comentarDTO) throws Exception {
         // 1. Buscar la reserva
         Reserva reserva = reservaRepository.findById(reservaId)
-                .orElseThrow(() -> new Exception("La reserva no existe"));
+                .orElseThrow(() -> new NotFoundException("La reserva no existe"));
 
         // 2. Validar que pertenezca al huésped y al alojamiento correctos
         if (!reserva.getHuesped().getId().equals(comentarDTO.idUsuario()) ||
                 !reserva.getAlojamiento().getId().equals(comentarDTO.idAlojamiento())) {
-            throw new Exception("La reserva no corresponde al usuario o al alojamiento indicado");
+            throw new InvalidOperationException("La reserva no corresponde al usuario o al alojamiento indicado");
         }
 
         // 3. Validar que la reserva esté completada
         if (reserva.getFechaCheckOut().isAfter(LocalDateTime.now())) {
-            throw new Exception("No puede comentar: la reserva aún no ha finalizado");
+            throw new ValidationException("No puede comentar: la reserva aún no ha finalizado");
         }
 
         // 4. Validar que no exista ya comentario para esa reserva
         if (comentarioRepository.existsByReservaId(reservaId)) {
-            throw new Exception("Ya ha comentado esta reserva");
+            throw new InvalidOperationException("Ya ha comentado esta reserva");
         }
 
         // 5. Crear y guardar comentario
@@ -66,14 +68,15 @@ public class ComentarioServiceImpl implements ComentarioService {
                 .average()
                 .orElse(0);
 
+        Usuario usuario = usuarioRepository.findById(comentarDTO.idUsuario()).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+
         alojamiento.setCalificacionPromedio(promedio);
         alojamientoRepository.save(alojamiento);
         emailService.sendMail(
-                new EmailDTO("Nuevo comentario en: " + alojamiento.getTitulo(), "Un usuario realizó un comentario en tu alojamiento", alojamiento.getAnfitrion().getUsuario().getEmail())
+                new EmailDTO("Nuevo comentario en: " + alojamiento.getTitulo(),
+                        "El usuario " + usuario.getNombre() + "realizó un comentario en el alojamiento " + alojamiento.getTitulo(), alojamiento.getAnfitrion().getUsuario().getEmail())
         );
     }
-
-
 
     public List<ComentarioDTO> listarComentariosPorAlojamiento(Long alojamientoId) throws Exception {
         return comentarioRepository.findByAlojamientoIdOrderByFechaDesc(alojamientoId)

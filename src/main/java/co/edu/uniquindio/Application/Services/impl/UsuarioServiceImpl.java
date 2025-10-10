@@ -1,5 +1,6 @@
 package co.edu.uniquindio.Application.Services.impl;
 
+import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.TokenDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.*;
 import co.edu.uniquindio.Application.Exceptions.NotFoundException;
@@ -8,6 +9,7 @@ import co.edu.uniquindio.Application.Exceptions.ValueConflictException;
 import co.edu.uniquindio.Application.Model.Usuario;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Security.JWTUtils;
+import co.edu.uniquindio.Application.Services.EmailService;
 import co.edu.uniquindio.Application.Services.ImageService;
 import co.edu.uniquindio.Application.Services.UsuarioService;
 import co.edu.uniquindio.Application.Mappers.UsuarioMapper;
@@ -32,6 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final ImageService imageService;
     private final JWTUtils jwtUtils;
+    private final EmailService emailService;
 
     @Override
     public void create(CrearUsuarioDTO usuarioDTO) throws Exception {
@@ -96,21 +99,27 @@ public class UsuarioServiceImpl implements UsuarioService {
         user.setPassword( passwordEncoder.encode(changePasswordDTO.newPassword()) );
 
         usuarioRepository.save(user);
+
+        emailService.sendMail(
+                new EmailDTO("Tu contraseña se ha actualizado correctamente",
+                        "Usted realizó un cambio de contraseña", user.getEmail())
+        );
     }
 
     @Transactional
     @Override
     public void resetPassword(ResetPasswordDTO resetPasswordDTO) throws Exception {
-        Optional<Usuario> optionalUser = usuarioRepository.findByEmail(resetPasswordDTO.email());
-
-        if(optionalUser.isEmpty()){
-            throw new NotFoundException("El usuario no existe");
-        }
+        Usuario user = usuarioRepository.findByEmail(resetPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
 
         //TODO validar que el código que viene en el DTO sea igual al que se envió por el email del usuario, y que no haya expirado. Luego actualizar la contraseña y eliminar el código usado.
 
+        emailService.sendMail(
+                new EmailDTO("Tu contraseña se ha actualizado correctamente",
+                        "Usted realizó un cambio de contraseña", user.getEmail())
+        );
     }
 
+    @Override
     public TokenDTO login(LoginDTO loginDTO) throws Exception {
         Optional<Usuario> optionalUser = usuarioRepository.findByEmail(loginDTO.email());
 
@@ -128,6 +137,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         String token = jwtUtils.generateToken(usuario.getId().toString(), createClaims(usuario));
         return new TokenDTO(token);
     }
+
+    @Override
+    public void sendVerificationCode(ForgotPasswordDTO forgotPasswordDTO) throws Exception {
+        Usuario usuario = usuarioRepository.findByEmail(forgotPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
+        emailService.sendMail(
+                new EmailDTO("Recuperación de contraseña", "Su código de verificación es:" , usuario.getEmail())
+        );
+    }
+
 
     private Map<String, String> createClaims(Usuario usuario){
         return Map.of(

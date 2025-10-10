@@ -48,7 +48,8 @@ public class ReservaServiceImpl implements ReservaService {
             reservaRepository.save(reserva);
             try {
                 emailService.sendMail(
-                        new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(), "Un usuario canceló su reserva", reserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
+                        new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(),
+                                "El usuario " + reserva.getHuesped().getNombre() + "canceló su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() + "en el alojamiento " + reserva.getAlojamiento().getTitulo(), reserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
                 );
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -119,7 +120,10 @@ public class ReservaServiceImpl implements ReservaService {
         reservaRepository.save(newReserva);
 
         emailService.sendMail(
-                new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(), "Su reserva se realizó satisfactoriamente", newReserva.getHuesped().getEmail())
+                new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(),
+                        "Su reserva se realizó satisfactoriamente con los siguientes datos. \\nDía de llegada: " + newReserva.getFechaCheckIn()
+                        + "\\nDía de salida: " + newReserva.getFechaCheckOut(),
+                        newReserva.getHuesped().getEmail())
         );
         emailService.sendMail(
                 new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(), "Un usuario realizó una reserva", newReserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())

@@ -14,4 +14,5 @@ public interface UsuarioService {
     void changePassword(Long id, ChangePasswordDTO changePasswordDTO) throws Exception;
     void resetPassword(ResetPasswordDTO resetPassWordDTO) throws Exception;
     TokenDTO login(LoginDTO loginDTO) throws Exception;
+    void sendVerificationCode(ForgotPasswordDTO forgotPasswordDTO) throws Exception;
 }
