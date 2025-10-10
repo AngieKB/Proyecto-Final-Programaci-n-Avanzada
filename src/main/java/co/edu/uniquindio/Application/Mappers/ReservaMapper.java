@@ -1,6 +1,7 @@
 package co.edu.uniquindio.Application.Mappers;
 
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
 import co.edu.uniquindio.Application.Model.Reserva;
@@ -16,4 +17,9 @@ public interface ReservaMapper {
     @Mapping(source = "reserva.alojamiento.titulo", target = "alojamientoTitulo")
     @Mapping(source = "reserva.alojamiento.ubicacion.ciudad", target = "alojamientoCiudad")
     ReservaUsuarioDTO toUsuarioDTO(Reserva reserva);
+    @Mapping(source = "reserva.alojamiento.titulo", target = "alojamientoTitulo")
+    @Mapping(source = "reserva.alojamiento.ubicacion.ciudad", target = "alojamientoCiudad")
+    @Mapping(source = "reserva.huesped.id", target = "idHuesped")
+    ReservaAlojamientoDTO toAlojamientoDTO(Reserva reserva);
+
 }

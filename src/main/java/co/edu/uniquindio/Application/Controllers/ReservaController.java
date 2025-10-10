@@ -3,6 +3,7 @@ package co.edu.uniquindio.Application.Controllers;
 import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Alojamiento.UbicacionDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.UsuarioDTO;
@@ -39,9 +40,23 @@ public class ReservaController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido cancelada"));
     }
 
+    @PutMapping("/actualizar-completadas")
+    public ResponseEntity<ResponseDTO<String>> actualizarReservasCompletadas() {
+        reservaService.actualizarReservasCompletadas();
+        return ResponseEntity.ok(
+                new ResponseDTO<>(false, "Reservas completadas actualizadas correctamente")
+        );
+    }
+
+
     @GetMapping("/mis-reservas/{usuarioId}")
     public ResponseEntity<ResponseDTO<List<ReservaUsuarioDTO>>> obtenerMisReservas(@PathVariable Long usuarioId) {
-        List<ReservaUsuarioDTO> reservas = reservaService.obtenerReservasPorId(usuarioId);
+        List<ReservaUsuarioDTO> reservas = reservaService.obtenerReservasPorIdHuesped(usuarioId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, reservas));
+    }
+    @GetMapping("/mis-reservas-aloja/{alojamientoId}")
+    public ResponseEntity<ResponseDTO<List<ReservaAlojamientoDTO>>> obtenerMisReservasPorAlojamiento(@PathVariable Long alojamientoId) {
+        List<ReservaAlojamientoDTO> reservas = reservaService.obtenerReservasPorIdAlojamiento(alojamientoId);
         return ResponseEntity.ok(new ResponseDTO<>(false, reservas));
     }
 

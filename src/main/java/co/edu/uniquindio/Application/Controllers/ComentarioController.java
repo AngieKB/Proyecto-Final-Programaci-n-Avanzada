@@ -12,18 +12,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comentarios")
+@RequestMapping("/api/comentarios")
 public class ComentarioController {
     private final ComentarioServiceImpl comentarioService;
 
-    @PostMapping
-    public ResponseEntity<ResponseDTO<String>> crearComentario(@RequestBody ComentarDTO comentarDto) throws Exception{
-        comentarioService.comentar(comentarDto);
+    @PostMapping("/{reservaId}")
+    public ResponseEntity<ResponseDTO<String>> crearComentario(@PathVariable Long reservaId, @RequestBody ComentarDTO comentarDto) throws Exception{
+        comentarioService.comentar(reservaId, comentarDto);
         return ResponseEntity.ok(new ResponseDTO<>(false, "Comentario creado exitosamente"));
     }
 
-    @GetMapping
-    public ResponseEntity<ResponseDTO<List<ComentarioDTO>>> obtenerComentariosPorAlojamiento(@RequestParam Long idAlojamiento) throws Exception{
+    @GetMapping("/alojamiento/{idAlojamiento}")
+    public ResponseEntity<ResponseDTO<List<ComentarioDTO>>> obtenerComentariosPorAlojamiento(@PathVariable Long idAlojamiento) throws Exception{
         return ResponseEntity.ok(new ResponseDTO<>(false, comentarioService.listarComentariosPorAlojamiento(idAlojamiento)));
     }
 }

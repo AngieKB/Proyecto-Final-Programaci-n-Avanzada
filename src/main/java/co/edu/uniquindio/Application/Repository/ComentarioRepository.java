@@ -8,6 +8,7 @@ import java.util.List;
 public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
 
     List<Comentario> findByAlojamientoIdOrderByFechaDesc(Long alojamientoId);
-    boolean existsByAlojamientoIdAndHuespedId(Long alojamientoId, Long huespedId);
+    boolean existsByReservaId(Long reservaId);
+    boolean existsByHuespedIdAndAlojamientoId(Long huespedId, Long alojamientoId);
     List<Comentario> findByAlojamientoId(Long alojamientoId);
 }

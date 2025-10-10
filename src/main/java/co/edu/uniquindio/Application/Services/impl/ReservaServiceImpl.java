@@ -2,6 +2,7 @@ package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
+import co.edu.uniquindio.Application.DTO.Reserva.ReservaAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
 import co.edu.uniquindio.Application.Exceptions.BadCredentialsException;
@@ -34,7 +35,7 @@ public class ReservaServiceImpl implements ReservaService {
     private final EmailService emailService;
 
     @Override
-    public void cancelarReserva(Long id) {
+    public void cancelarReserva(Long id)  {
         reservaRepository.findById(id).ifPresentOrElse(reserva -> {
             if(reserva.getEstado() == EstadoReserva.CANCELADA) {
                 throw new RuntimeException("La reserva ya se encuentra cancelada.");
@@ -67,10 +68,26 @@ public class ReservaServiceImpl implements ReservaService {
     public void editarReserva(Long id, ReservaDTO dto){}
 
     @Override
-    public List<ReservaUsuarioDTO> obtenerReservasPorId(Long id) {
+    public List<ReservaUsuarioDTO> obtenerReservasPorIdHuesped(Long id) {
         List<Reserva> reservas = reservaRepository.findByHuespedId(id);
+
+        // Ordenar de más reciente a más antigua
+        reservas.sort((r1, r2) -> r2.getFechaCheckIn().compareTo(r1.getFechaCheckIn()));
+
         return reservas.stream()
                 .map(reservaMapper::toUsuarioDTO)
+                .toList();
+    }
+
+    @Override
+    public List<ReservaAlojamientoDTO> obtenerReservasPorIdAlojamiento(Long id) {
+        List<Reserva> reservas = reservaRepository.findByAlojamientoId(id);
+
+        // Ordenar de más reciente a más antigua
+        reservas.sort((r1, r2) -> r2.getFechaCheckIn().compareTo(r1.getFechaCheckIn()));
+
+        return reservas.stream()
+                .map(reservaMapper::toAlojamientoDTO)
                 .toList();
     }
     @Override
@@ -108,6 +125,17 @@ public class ReservaServiceImpl implements ReservaService {
                 new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(), "Un usuario realizó una reserva", newReserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
         );
     }
+    @Override
+    @Transactional
+    public void actualizarReservasCompletadas() {
+        int filasActualizadas = reservaRepository.actualizarReservasCompletadas(
+                EstadoReserva.COMPLETADA,
+                LocalDateTime.now(),
+                List.of(EstadoReserva.CANCELADA, EstadoReserva.COMPLETADA)
+        );
+        System.out.println("Reservas completadas actualizadas: " + filasActualizadas);
+    }
+
     public double calcularValorTotal(Reserva reserva){
         long dias = reserva.getFechaCheckOut().toLocalDate().toEpochDay() - reserva.getFechaCheckIn().toLocalDate().toEpochDay();
         return dias * reserva.getAlojamiento().getPrecioNoche()* reserva.getCantidadHuespedes();

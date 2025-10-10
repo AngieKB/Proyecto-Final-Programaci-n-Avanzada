@@ -35,5 +35,10 @@ public class Comentario {
     @ManyToOne
     @JoinColumn(name= "alojamiento_id")
     private Alojamiento alojamiento;
+
+    @ManyToOne
+    @JoinColumn(name = "reserva_id")
+    private Reserva reserva;
+
 }
 
