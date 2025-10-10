@@ -7,10 +7,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,29 +40,51 @@ public class UsuarioControllerTest {
     @Test
     @Sql("classpath:dataset.sql")
     void testCrearUsuarioExitoso() throws Exception {
+        Path path = Paths.get("src/test/resources/foto-test.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile foto = new MockMultipartFile(
+                "foto",
+                "foto.jpg",
+                "image/jpeg",
+                content
+        );
         var usuario = new CrearUsuarioDTO(
                 "Carlos",
                 "carlos@email.com",
                 "123456789",
                 "Password123",
-                LocalDate.of(1990, 1, 1)
+                LocalDate.of(1990, 1, 1),
+                foto
         );
 
-        mockMvc.perform(post("/api/usuario")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(usuario)))
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/usuario")
+                        .file(foto)  // el MockMultipartFile
+                        .param("nombre", "Carlos")
+                        .param("email", "carlos@email.com")
+                        .param("telefono", "123456789")
+                        .param("password", "Password123")
+                        .param("fechaNacimiento", "1990-01-01"))
                 .andExpect(status().isCreated());
     }
 
     @Test
     @Sql("classpath:dataset.sql")
     void testCrearUsuario_EmailRepetido() throws Exception {
+        Path path = Paths.get("src/test/resources/foto-test.jpg");
+        byte[] content = Files.readAllBytes(path);
+        MockMultipartFile foto = new MockMultipartFile(
+                "foto",
+                "foto.jpg",
+                "image/jpeg",
+                content
+        );
         var usuario = new CrearUsuarioDTO(
                 "Carlos",
                 "juan@example.com",
                 "123456789",
                 "Password123",
-                LocalDate.of(1990, 1, 1)
+                LocalDate.of(1990, 1, 1),
+                foto
         );
 
         mockMvc.perform(post("/api/usuario")
