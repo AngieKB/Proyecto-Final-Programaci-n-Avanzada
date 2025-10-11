@@ -50,9 +50,6 @@ public class RespuestaServiceUnitTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // =====================================================
-    // ✅ TEST 1: Responder comentario exitosamente
-    // =====================================================
     @Test
     void testResponderComentario_Exitoso() throws Exception {
         // --- Arrange ---
@@ -102,7 +99,6 @@ public class RespuestaServiceUnitTest {
         verify(emailService, times(2)).sendMail(any(EmailDTO.class));
     }
 
-    // ❌ TEST 2: Error si el comentario no existe
     @Test
     void testResponderComentario_ComentarioNoExiste() {
         ResponderDTO dto = new ResponderDTO("Gracias", 99L, 2L);
@@ -116,7 +112,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, never()).save(any());
     }
 
-    // ❌ TEST 3: Error si el usuario no es el anfitrión
     @Test
     void testResponderComentario_NoEsAnfitrion() {
         ResponderDTO dto = new ResponderDTO("Hola", 1L, 5L);
@@ -142,7 +137,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, never()).save(any());
     }
 
-    // ❌ TEST 4: Error si el comentario ya fue respondido
     @Test
     void testResponderComentario_YaRespondido() {
         ResponderDTO dto = new ResponderDTO("Ya respondí", 1L, 2L);
@@ -169,9 +163,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, never()).save(any());
     }
 
-    // =====================================================
-    // ✅ TEST 5: Obtener respuesta por comentario (éxito)
-    // =====================================================
     @Test
     void testObtenerRespuestaPorComentario_Exitoso() {
         Long idComentario = 1L;
@@ -190,7 +181,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, times(1)).findByComentarioId(idComentario);
     }
 
-    // ❌ TEST 6: Obtener por comentario devuelve null
     @Test
     void testObtenerRespuestaPorComentario_SinResultado() {
         Long idComentario = 999L;
@@ -203,9 +193,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, times(1)).findByComentarioId(idComentario);
     }
 
-    // =====================================================
-    // ✅ TEST 7: Obtener respuesta por ID (éxito)
-    // =====================================================
     @Test
     void testObtenerPorId_Exitoso() throws Exception {
         Long id = 1L;
@@ -223,7 +210,6 @@ public class RespuestaServiceUnitTest {
         verify(respuestaRepository, times(1)).findById(id);
     }
 
-    // ❌ TEST 8: Error si la respuesta no existe
     @Test
     void testObtenerPorId_NoExiste() {
         when(respuestaRepository.findById(99L)).thenReturn(Optional.empty());

@@ -43,9 +43,6 @@ class AuthControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    // ============================================
-    // LOGIN
-    // ============================================
     @Test
     void login_Exitoso() throws Exception {
         LoginDTO loginDTO = new LoginDTO("correo@test.com", "password123");
@@ -69,9 +66,6 @@ class AuthControllerTest {
         verify(usuarioService, times(1)).login(loginDTO);
     }
 
-    // ============================================
-    // REGISTRO DE USUARIO
-    // ============================================
     @Test
     void registroUsuario_Exitoso() throws Exception {
         CrearUsuarioDTO userDTO = new CrearUsuarioDTO("Juan", "juan@test.com", "123456789", "1234", null, null);
@@ -95,9 +89,6 @@ class AuthControllerTest {
         verify(usuarioService, times(1)).create(userDTO);
     }
 
-    // ============================================
-    // REGISTRO ANFITRIÓN
-    // ============================================
     @Test
     void crearPerfilAnfitrion_Exitoso() {
         CrearAnfitrionDTO dto = new CrearAnfitrionDTO("nombre", "3202342345", "correo@example", "123456789", null, null, "Descripcion", null, 1L);
@@ -119,9 +110,6 @@ class AuthControllerTest {
         verify(perfilAnfitrionService, times(1)).crearPerfil(dto);
     }
 
-    // ============================================
-    // FORGOT PASSWORD
-    // ============================================
     @Test
     void forgotPassword_Exitoso() throws Exception {
         ForgotPasswordDTO dto = new ForgotPasswordDTO("correo@test.com");
@@ -144,9 +132,6 @@ class AuthControllerTest {
         verify(usuarioService, times(1)).sendVerificationCode(dto);
     }
 
-    // ============================================
-    // RESET PASSWORD
-    // ============================================
     @Test
     void resetPassword_Exitoso() throws Exception {
         ResetPasswordDTO dto = new ResetPasswordDTO("correo@example","codigo123", "nuevaClave");

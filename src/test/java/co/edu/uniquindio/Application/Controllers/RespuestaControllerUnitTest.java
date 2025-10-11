@@ -32,9 +32,6 @@ public class RespuestaControllerUnitTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // =====================================================
-    // ✅ TEST 1: Éxito al responder comentario
-    // =====================================================
     @Test
     void testResponderComentario_Exitoso() throws Exception {
         ResponderDTO responderDTO = new ResponderDTO("Gracias por tu comentario", 1L, 2L);
@@ -51,7 +48,6 @@ public class RespuestaControllerUnitTest {
         verify(respuestaService, times(1)).responderComentario(responderDTO);
     }
 
-    // ❌ TEST 2: Error al responder comentario
     @Test
     void testResponderComentario_Error() throws Exception {
         ResponderDTO responderDTO = new ResponderDTO("Gracias", 99L, 2L);
@@ -66,9 +62,6 @@ public class RespuestaControllerUnitTest {
         verify(respuestaService, times(1)).responderComentario(any());
     }
 
-    // =====================================================
-    // ✅ TEST 3: Obtener respuesta por comentario (éxito)
-    // =====================================================
     @Test
     void testObtenerRespuestaPorComentario_Exitoso() {
         Long idComentario = 1L;
@@ -86,7 +79,6 @@ public class RespuestaControllerUnitTest {
         verify(respuestaService, times(1)).obtenerRespuestaPorComentario(idComentario);
     }
 
-    // ❌ TEST 4: Error al obtener respuesta por comentario
     @Test
     void testObtenerRespuestaPorComentario_Error() {
         Long idComentario = 999L;
@@ -100,9 +92,6 @@ public class RespuestaControllerUnitTest {
         verify(respuestaService, times(1)).obtenerRespuestaPorComentario(idComentario);
     }
 
-    // =====================================================
-    // ✅ TEST 5: Obtener respuesta por ID (éxito)
-    // =====================================================
     @Test
     void testObtenerRespuestaPorId_Exitoso() throws Exception {
         Long id = 5L;
@@ -120,7 +109,6 @@ public class RespuestaControllerUnitTest {
         verify(respuestaService, times(1)).obtener(id);
     }
 
-    // ❌ TEST 6: Error al obtener respuesta por ID
     @Test
     void testObtenerRespuestaPorId_Error() throws Exception {
         Long id = 99L;
