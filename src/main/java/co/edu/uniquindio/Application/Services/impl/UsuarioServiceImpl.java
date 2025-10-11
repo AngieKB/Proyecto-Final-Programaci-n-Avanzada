@@ -72,7 +72,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<UsuarioDTO> listAll() {
-        return List.of();
+        return usuarioRepository.findAll()
+                .stream()
+                .map(usuarioMapper::toDTO)
+                .toList();
     }
 
     @Override
