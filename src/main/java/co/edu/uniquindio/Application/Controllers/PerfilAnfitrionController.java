@@ -6,6 +6,7 @@ import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.PerfilAnfitrionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class PerfilAnfitrionController {
         return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.listarPerfiles()));
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> actualizarPerfil(@PathVariable Long id, @Valid @RequestBody EditarAnfitrionDTO dto) {
         perfilAnfitrionService.actualizarPerfil(id, dto);

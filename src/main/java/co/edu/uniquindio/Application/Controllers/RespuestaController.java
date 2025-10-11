@@ -6,6 +6,7 @@ import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.impl.RespuestaServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class RespuestaController {
     private final RespuestaServiceImpl respuestaService;
 
+    @PreAuthorize("hasRole('HUESPED')")
     @PostMapping
     public ResponseEntity<ResponseDTO<String>> responderComentario(@RequestBody ResponderDTO responderDTO) throws Exception {
         respuestaService.responderComentario(responderDTO);

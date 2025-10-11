@@ -6,6 +6,7 @@ import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.impl.ComentarioServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ComentarioController {
     private final ComentarioServiceImpl comentarioService;
 
+    @PreAuthorize("hasRole('HUESPED')")
     @PostMapping("/{reservaId}")
     public ResponseEntity<ResponseDTO<String>> crearComentario(@PathVariable("reservaId") Long reservaId, @RequestBody ComentarDTO comentarDto) throws Exception{
         comentarioService.comentar(reservaId, comentarDto);

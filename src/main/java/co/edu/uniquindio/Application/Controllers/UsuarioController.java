@@ -6,6 +6,7 @@ import co.edu.uniquindio.Application.Services.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    @PreAuthorize("hasRole('HUESPED')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id,
                                                     @RequestParam String nombre,
@@ -45,5 +47,12 @@ public class UsuarioController {
     public ResponseEntity<ResponseDTO<List<UsuarioDTO>>> listAll(){
         List<UsuarioDTO> list = new ArrayList<>(usuarioService.listAll());
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
+    }
+
+    @PreAuthorize("hasRole('HUESPED')")
+    @PutMapping("/{id}/cambiar-password")
+    public ResponseEntity<ResponseDTO<String>> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO, @PathVariable Long id) throws Exception{
+        usuarioService.changePassword(id, changePasswordDTO);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Contraseña actualizada exitosamente"));
     }
 }
