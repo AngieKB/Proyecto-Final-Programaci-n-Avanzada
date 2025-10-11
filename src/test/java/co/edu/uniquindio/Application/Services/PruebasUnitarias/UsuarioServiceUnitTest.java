@@ -106,7 +106,7 @@ public class UsuarioServiceUnitTest {
     @Test
     void testGetUsuarioNoExiste() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> usuarioService.get(1L));
+        assertThrows(ResourceNotFoundException.class, () -> usuarioService.get(1L));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class UsuarioServiceUnitTest {
     @Test
     void testDeleteUsuarioNoExiste() {
         when(usuarioRepository.existsById(1L)).thenReturn(false);
-        assertThrows(NotFoundException.class, () -> usuarioService.delete(1L));
+        assertThrows(ResourceNotFoundException.class, () -> usuarioService.delete(1L));
     }
 
     @Test
@@ -263,6 +263,6 @@ public class UsuarioServiceUnitTest {
     @Test
     void testSendVerificationCodeUsuarioNoExiste() {
         when(usuarioRepository.findByEmail("no@existe.com")).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> usuarioService.sendVerificationCode(new ForgotPasswordDTO("no@existe.com")));
+        assertThrows(ResourceNotFoundException.class, () -> usuarioService.sendVerificationCode(new ForgotPasswordDTO("no@existe.com")));
     }
 }
