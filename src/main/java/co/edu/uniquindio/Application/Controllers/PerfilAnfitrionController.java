@@ -21,11 +21,13 @@ public class PerfilAnfitrionController {
         this.perfilAnfitrionService = perfilAnfitrionService;
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<PerfilAnfitrionDTO>> obtenerPerfil(@PathVariable Long id) {
         return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.obtenerPerfil(id)));
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @GetMapping
     public ResponseEntity<ResponseDTO<List<PerfilAnfitrionDTO>>> listarPerfiles() {
         return ResponseEntity.ok(new ResponseDTO<>(false, perfilAnfitrionService.listarPerfiles()));
@@ -38,6 +40,7 @@ public class PerfilAnfitrionController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "Perfil actualizado exitosamente"));
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> eliminarPerfil(@PathVariable Long id) {
         perfilAnfitrionService.eliminarPerfil(id);

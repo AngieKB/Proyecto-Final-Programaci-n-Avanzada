@@ -21,12 +21,14 @@ public class RespuestaController {
         return ResponseEntity.ok(new ResponseDTO<>(false,"Respuesta enviada con exito"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @GetMapping
     public ResponseEntity<ResponseDTO<RespuestaDTO>> obtenerRespuestaPorComentario(Long idComentario) {
         RespuestaDTO respuestaDTO = respuestaService.obtenerRespuestaPorComentario(idComentario);
         return ResponseEntity.ok(new ResponseDTO<>(false, respuestaDTO));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<RespuestaDTO>> obtenerRespuestaPorId(@PathVariable Long id) throws Exception {
         RespuestaDTO respuestaDTO = respuestaService.obtener(id);

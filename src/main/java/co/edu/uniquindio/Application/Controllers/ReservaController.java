@@ -27,18 +27,21 @@ public class ReservaController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido registrada"));
     }
 
+    @PreAuthorize("hasRole('HUESPED')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id, @Valid @RequestBody EditarReservaDTO reservaDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
         reservaService.editarReserva(id, reservaDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
+        return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido actualizada"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) throws Exception{
         reservaService.cancelarReserva(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, "La reserva ha sido cancelada"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @PutMapping("/actualizar-completadas")
     public ResponseEntity<ResponseDTO<String>> actualizarReservasCompletadas() {
         reservaService.actualizarReservasCompletadas();
@@ -47,12 +50,13 @@ public class ReservaController {
         );
     }
 
-
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/mis-reservas/{usuarioId}")
     public ResponseEntity<ResponseDTO<List<ReservaUsuarioDTO>>> obtenerMisReservas(@PathVariable Long usuarioId) {
         List<ReservaUsuarioDTO> reservas = reservaService.obtenerReservasPorIdHuesped(usuarioId);
         return ResponseEntity.ok(new ResponseDTO<>(false, reservas));
     }
+    @PreAuthorize("hasRole('ANFITRION')")
     @GetMapping("/mis-reservas-aloja/{alojamientoId}")
     public ResponseEntity<ResponseDTO<List<ReservaAlojamientoDTO>>> obtenerMisReservasPorAlojamiento(@PathVariable Long alojamientoId) {
         List<ReservaAlojamientoDTO> reservas = reservaService.obtenerReservasPorIdAlojamiento(alojamientoId);

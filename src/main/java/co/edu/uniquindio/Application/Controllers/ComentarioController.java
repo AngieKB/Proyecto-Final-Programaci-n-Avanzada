@@ -24,6 +24,7 @@ public class ComentarioController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "Comentario creado exitosamente"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @GetMapping("/alojamiento/{idAlojamiento}")
     public ResponseEntity<ResponseDTO<List<ComentarioDTO>>> obtenerComentariosPorAlojamiento(@PathVariable("idAlojamiento") Long idAlojamiento) throws Exception{
         return ResponseEntity.ok(new ResponseDTO<>(false, comentarioService.listarComentariosPorAlojamiento(idAlojamiento)));

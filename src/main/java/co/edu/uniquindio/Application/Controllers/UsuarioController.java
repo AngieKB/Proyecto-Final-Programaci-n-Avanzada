@@ -32,19 +32,21 @@ public class UsuarioController {
         usuarioService.edit(id, usuarioDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
     }
-
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> delete(@PathVariable("id") Long id) throws Exception{
         usuarioService.delete(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable("id") Long id) throws Exception{
         UsuarioDTO usuarioDTO = usuarioService.get(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, usuarioDTO));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ANFITRION')")
     @GetMapping
     public ResponseEntity<ResponseDTO<List<UsuarioDTO>>> listAll(){
         List<UsuarioDTO> list = new ArrayList<>(usuarioService.listAll());

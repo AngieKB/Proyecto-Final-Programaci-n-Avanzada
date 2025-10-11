@@ -34,59 +34,69 @@ public class AlojamientoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO<>(false, "El alojamiento ha sido registrado"));
     }
 
-
+    @PreAuthorize("hasRole('ANFITRION')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> editar(@PathVariable Long id, @Valid @RequestBody AlojamientoDTO alojamientoDTO, @Valid@RequestBody UbicacionDTO ubicacionDTO) throws Exception{
         alojamientoService.editarAlojamiento(id, alojamientoDTO, ubicacionDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El alojamiento ha sido actualizado"));
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO<String>> eliminar(@PathVariable Long id) throws Exception{
         alojamientoService.eliminar(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
     }
 
+    @PreAuthorize("hasAnyRole('HUESPED', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<AlojamientoDTO>> obtenerPorId(@PathVariable Long id) throws Exception{
         return ResponseEntity.ok(new ResponseDTO<>(false, alojamientoService.obtenerPorId(id)));
     }
 
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listarTodos() throws Exception {
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarTodos());
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/buscar/ciudad")
     public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorCiudad(@RequestParam String ciudad) throws Exception {
         List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorCiudad(ciudad));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/buscar/fechas")
     public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorFechas(@RequestParam LocalDateTime fechaInicio, @RequestParam LocalDateTime fechaFin) throws Exception{
         List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorFechas(fechaInicio,fechaFin));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/buscar/precio")
     public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> buscarPorPrecio(@RequestParam Double precioMin, @RequestParam Double precioMax) throws Exception{
         List<ResumenAlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorPrecio(precioMin,precioMax));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
+
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/buscar/" +"servicios")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> buscarPorServicios(@RequestParam List<String> servicios) throws Exception{
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.buscarPorServicios(servicios));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
 
+    @PreAuthorize("hasRole('ANFITRION')")
     @GetMapping("/listarPorAnfitrion/{idAnfitrion}")
     public ResponseEntity<ResponseDTO<List<AlojamientoDTO>>> listarPorAnfitrion(@PathVariable Long idAnfitrion) throws Exception {
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarPorAnfitrion(idAnfitrion));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
-    @PreAuthorize("hasRole('USUARIO')")
+
+    @PreAuthorize("hasRole('HUESPED')")
     @PostMapping("/{usuarioId}/favoritos/{alojamientoId}")
     public ResponseEntity<ResponseDTO<String>> agregarAFavoritos(
             @PathVariable Long usuarioId,
@@ -96,7 +106,7 @@ public class AlojamientoController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "Alojamiento agregado a favoritos"));
     }
 
-    @PreAuthorize("hasRole('USUARIO')")
+    @PreAuthorize("hasRole('HUESPED')")
     @DeleteMapping("/{usuarioId}/favoritos/{alojamientoId}")
     public ResponseEntity<ResponseDTO<String>> quitarDeFavoritos(
             @PathVariable Long usuarioId,
@@ -106,14 +116,14 @@ public class AlojamientoController {
         return ResponseEntity.ok(new ResponseDTO<>(false, "Alojamiento removido de favoritos"));
     }
 
-    @PreAuthorize("hasRole('USUARIO')")
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/{usuarioId}/favoritos")
     public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> listarFavoritos(@PathVariable Long usuarioId) throws Exception {
         List<ResumenAlojamientoDTO> favoritos = alojamientoService.listarFavoritos(usuarioId);
         return ResponseEntity.ok(new ResponseDTO<>(false, favoritos));
     }
 
-    @PreAuthorize("hasRole('ANFITRION')")
+    @PreAuthorize("hasRole('HUESPED')")
     @GetMapping("/{alojamientoId}/favorito/count")
     public ResponseEntity<ResponseDTO<Integer>> contarUsuariosFavorito(@PathVariable Long alojamientoId) throws Exception {
         int cantidad = alojamientoService.contarUsuariosFavorito(alojamientoId);
