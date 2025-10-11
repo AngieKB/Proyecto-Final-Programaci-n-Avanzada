@@ -46,10 +46,4 @@ public class UsuarioController {
         List<UsuarioDTO> list = new ArrayList<>(usuarioService.listAll());
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
-
-    @PutMapping("/{id}/cambiar-password")
-    public ResponseEntity<ResponseDTO<String>> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO, @PathVariable Long id) throws Exception{
-        usuarioService.changePassword(id, changePasswordDTO);
-        return ResponseEntity.ok(new ResponseDTO<>(false, "Contraseña actualizada exitosamente"));
-    }
 }

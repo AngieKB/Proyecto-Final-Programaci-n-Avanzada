@@ -17,13 +17,13 @@ public class ComentarioController {
     private final ComentarioServiceImpl comentarioService;
 
     @PostMapping("/{reservaId}")
-    public ResponseEntity<ResponseDTO<String>> crearComentario(@PathVariable Long reservaId, @RequestBody ComentarDTO comentarDto) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> crearComentario(@PathVariable("reservaId") Long reservaId, @RequestBody ComentarDTO comentarDto) throws Exception{
         comentarioService.comentar(reservaId, comentarDto);
         return ResponseEntity.ok(new ResponseDTO<>(false, "Comentario creado exitosamente"));
     }
 
     @GetMapping("/alojamiento/{idAlojamiento}")
-    public ResponseEntity<ResponseDTO<List<ComentarioDTO>>> obtenerComentariosPorAlojamiento(@PathVariable Long idAlojamiento) throws Exception{
+    public ResponseEntity<ResponseDTO<List<ComentarioDTO>>> obtenerComentariosPorAlojamiento(@PathVariable("idAlojamiento") Long idAlojamiento) throws Exception{
         return ResponseEntity.ok(new ResponseDTO<>(false, comentarioService.listarComentariosPorAlojamiento(idAlojamiento)));
     }
 }

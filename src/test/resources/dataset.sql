@@ -32,7 +32,7 @@ INSERT INTO alojamientos (
              NOW(),
              0.0,
              'ACTIVO',
-             2, -- id del anfitrión existente en tu tabla perfil_anfitrion
+             2, -- ID del anfitrión (Juan Pérez)
              'Vereda El Retiro, km 5',
              'Manizales',
              'Colombia',
@@ -51,14 +51,46 @@ INSERT INTO reservas (
     alojamiento_id
 ) VALUES (
              1,
-             '2025-10-15 15:00:00', -- fechaCheckIn
-             '2025-10-20 12:00:00', -- fechaCheckOut
-             2,                     -- cantidadHuespedes
-             500.0,                 -- total
-             NOW(),                 -- fechaCreacion
-             'PENDIENTE',            -- estado (según tu enum)
-             1,                     -- huesped_id (debe existir en la tabla usuarios)
-             1                      -- alojamiento_id (debe existir en la tabla alojamientos)
+             '2025-10-15 15:00:00',
+             '2025-10-20 12:00:00',
+             2,
+             500.0,
+             NOW(),
+             'PENDIENTE',
+             1, -- ID del huésped (Amyi Lopez)
+             1 -- ID del alojamiento (Cabania en las montanias)
          );
 
+-- Reserva finalizada
+INSERT INTO reservas (
+    id, fecha_check_in, fecha_check_out, cantidad_huespedes, total, fecha_creacion, estado, huesped_id, alojamiento_id
+) VALUES
+    (2, '2025-09-01 15:00:00', '2025-09-05 12:00:00', 2, 1000000.0, NOW(), 'COMPLETADA', 1, 1);
 
+INSERT INTO reservas (
+    id, fecha_check_in, fecha_check_out, cantidad_huespedes, total, fecha_creacion, estado, huesped_id, alojamiento_id
+) VALUES
+      (5, '2025-07-01 15:00:00', '2025-07-05 12:00:00', 1, 600000.0, NOW(), 'COMPLETADA', 1, 1),
+      (6, '2025-06-10 15:00:00', '2025-06-15 12:00:00', 2, 700000.0, NOW(), 'COMPLETADA', 3, 1);
+
+-- Reserva aún activa
+INSERT INTO reservas (
+    id, fecha_check_in, fecha_check_out, cantidad_huespedes, total, fecha_creacion, estado, huesped_id, alojamiento_id
+) VALUES
+    (3, '2025-10-15 15:00:00', '2025-10-20 12:00:00', 2, 900000.0, NOW(), 'PENDIENTE', 1, 1);
+
+-- Reserva finalizada y ya comentada
+INSERT INTO reservas (
+    id, fecha_check_in, fecha_check_out, cantidad_huespedes, total, fecha_creacion, estado, huesped_id, alojamiento_id
+) VALUES
+    (4, '2025-08-10 15:00:00', '2025-08-15 12:00:00', 2, 800000.0, NOW(), 'COMPLETADA', 3, 1);
+
+-- Comentario asociado a la reserva 3 (ya comentada)
+INSERT INTO comentarios (id, texto, calificacion, fecha, alojamiento_id, reserva_id)
+VALUES
+    (1, 'Excelente lugar para descansar', 5, '2025-08-16 10:00:00', 1, 4);-- Comentario asociado a la reserva 4 (ya comentada)
+
+INSERT INTO comentarios (id, texto, calificacion, fecha, alojamiento_id, reserva_id)
+VALUES
+    (3, 'Lugar acogedor, volvería de nuevo', 5, '2025-07-06 11:00:00', 1, 5),
+    (4, 'Todo perfecto, recomiendo', 5, '2025-06-16 12:00:00', 1, 6);
