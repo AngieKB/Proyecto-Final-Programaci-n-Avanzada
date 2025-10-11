@@ -3,7 +3,7 @@ package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarioDTO;
 import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
-import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Exceptions.ValidationException;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.Comentario;
@@ -168,7 +168,7 @@ class ComentarioServiceUnitTest {
     void testCrearComentarioReservaNoExiste() {
         ComentarDTO dto = new ComentarDTO("No debería guardarse", 4, LocalDateTime.now(), 1L, 1L);
         when(reservaRepository.findById(999L)).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> comentarioService.comentar(999L, dto));
+        assertThrows(ResourceNotFoundException.class, () -> comentarioService.comentar(999L, dto));
     }
 
     @Test

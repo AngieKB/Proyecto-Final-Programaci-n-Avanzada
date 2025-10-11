@@ -4,7 +4,7 @@ import co.edu.uniquindio.Application.DTO.Comentario.ResponderDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.RespuestaDTO;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
-import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Mappers.RespuestaMapper;
 import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.ComentarioRepository;
@@ -104,7 +104,7 @@ public class RespuestaServiceUnitTest {
         ResponderDTO dto = new ResponderDTO("Gracias", 99L, 2L);
         when(comentarioRepository.findById(99L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(NotFoundException.class, () ->
+        Exception exception = assertThrows(ResourceNotFoundException.class, () ->
                 respuestaService.responderComentario(dto)
         );
 
@@ -214,7 +214,7 @@ public class RespuestaServiceUnitTest {
     void testObtenerPorId_NoExiste() {
         when(respuestaRepository.findById(99L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(NotFoundException.class, () ->
+        Exception exception = assertThrows(ResourceNotFoundException.class, () ->
                 respuestaService.obtener(99L)
         );
 
