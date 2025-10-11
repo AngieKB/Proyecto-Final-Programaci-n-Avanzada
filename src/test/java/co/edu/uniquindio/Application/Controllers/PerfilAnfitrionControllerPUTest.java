@@ -29,7 +29,7 @@ public class PerfilAnfitrionControllerPUTest {
     }
 
     @Test
-    void testObtenerPerfil() {
+    void testObtenerAnfitrionPorId() {
         PerfilAnfitrionDTO dto = new PerfilAnfitrionDTO(1L, 2L, "desc", List.of(), List.of());
         when(perfilAnfitrionService.obtenerPerfil(1L)).thenReturn(dto);
 
@@ -41,7 +41,7 @@ public class PerfilAnfitrionControllerPUTest {
     }
 
     @Test
-    void testListarPerfiles() {
+    void testListarAnfitriones() {
         var lista = List.of(
                 new PerfilAnfitrionDTO(1L, 2L, "desc1", List.of(), List.of()),
                 new PerfilAnfitrionDTO(2L, 3L, "desc2", List.of(), List.of())
@@ -56,7 +56,7 @@ public class PerfilAnfitrionControllerPUTest {
     }
 
     @Test
-    void testActualizarPerfil() {
+    void testActualizarAnfitrion() {
         EditarAnfitrionDTO dto = new EditarAnfitrionDTO("Ana", "123", "url", "desc");
 
         ResponseEntity<ResponseDTO<String>> response =
@@ -67,7 +67,7 @@ public class PerfilAnfitrionControllerPUTest {
     }
 
     @Test
-    void testEliminarPerfil() {
+    void testEliminarAnfitrion() {
         ResponseEntity<ResponseDTO<String>> response =
                 perfilAnfitrionController.eliminarPerfil(1L);
 

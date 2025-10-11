@@ -44,7 +44,7 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testCrearPerfilExitoso() {
+    void testCrearAnfitrionExitoso() {
         CrearAnfitrionDTO dto = new CrearAnfitrionDTO(
                 "Ana",
                 "3001234567",
@@ -74,7 +74,7 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testCrearPerfilUsuarioNoEncontrado() {
+    void testCrearAnfitrionNoEncontrado() {
         CrearAnfitrionDTO dto = new CrearAnfitrionDTO(
                 "Ana",
                 "3001234567",
@@ -94,7 +94,7 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testObtenerPerfilExitoso() {
+    void testObtenerAnfitrionExitoso() {
         PerfilAnfitrion perfil = new PerfilAnfitrion();
         perfil.setId(5L);
         PerfilAnfitrionDTO dto = new PerfilAnfitrionDTO(5L, 1L, "desc", List.of(), List.of());
@@ -109,13 +109,13 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testObtenerPerfilNoExistente() {
+    void testObtenerAnfitrionNoExistente() {
         when(perfilAnfitrionRepository.findById(10L)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class, () -> perfilAnfitrionService.obtenerPerfil(10L));
     }
 
     @Test
-    void testListarPerfiles() {
+    void testListarAnfitriones() {
         PerfilAnfitrion perfil1 = new PerfilAnfitrion();
         PerfilAnfitrion perfil2 = new PerfilAnfitrion();
         PerfilAnfitrionDTO dto1 = new PerfilAnfitrionDTO(1L, 1L, "desc1", List.of(), List.of());
@@ -132,7 +132,7 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testActualizarPerfilExitoso() {
+    void testActualizarAnfitrionExitoso() {
         EditarAnfitrionDTO dto = new EditarAnfitrionDTO("Ana", "3001234567", "http://foto.jpg", "Descripción actualizada");
         PerfilAnfitrion perfil = new PerfilAnfitrion();
         perfil.setId(1L);
@@ -146,7 +146,7 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testActualizarPerfilNoEncontrado() {
+    void testActualizarAnfitrionNoEncontrado() {
         EditarAnfitrionDTO dto = new EditarAnfitrionDTO("Ana", "3001234567", "http://foto.jpg", "Descripción actualizada");
         when(perfilAnfitrionRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -155,14 +155,14 @@ public class PerfilAnfitrionServicePUTest {
     }
 
     @Test
-    void testEliminarPerfilExitoso() {
+    void testEliminarAnfitrionExitoso() {
         when(perfilAnfitrionRepository.existsById(1L)).thenReturn(true);
         perfilAnfitrionService.eliminarPerfil(1L);
         verify(perfilAnfitrionRepository).deleteById(1L);
     }
 
     @Test
-    void testEliminarPerfilNoExistente() {
+    void testEliminarAnfitrionNoExistente() {
         when(perfilAnfitrionRepository.existsById(1L)).thenReturn(false);
         assertThrows(ResourceNotFoundException.class, () -> perfilAnfitrionService.eliminarPerfil(1L));
         verify(perfilAnfitrionRepository, never()).deleteById(any());
