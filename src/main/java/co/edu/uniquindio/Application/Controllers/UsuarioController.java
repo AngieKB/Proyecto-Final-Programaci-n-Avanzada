@@ -22,23 +22,25 @@ public class UsuarioController {
 
     @PreAuthorize("hasRole('HUESPED')")
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> edit(@PathVariable Long id,
-                                                    @RequestParam String nombre,
-                                                    @RequestParam String telefono,
-                                                    @RequestPart(required = false)MultipartFile fotoUrl) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> edit(
+            @PathVariable("id") Long id,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("telefono") String telefono,
+            @RequestPart(value = "fotoUrl", required = false) MultipartFile fotoUrl
+    ) throws Exception {
         EditarUsuarioDTO usuarioDTO = new EditarUsuarioDTO(nombre, telefono, fotoUrl);
         usuarioService.edit(id, usuarioDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido actualizado"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable("id") Long id) throws Exception{
         usuarioService.delete(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, "El usuario ha sido eliminado"));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable Long id) throws Exception{
+    public ResponseEntity<ResponseDTO<UsuarioDTO>> get(@PathVariable("id") Long id) throws Exception{
         UsuarioDTO usuarioDTO = usuarioService.get(id);
         return ResponseEntity.ok(new ResponseDTO<>(false, usuarioDTO));
     }
@@ -51,7 +53,7 @@ public class UsuarioController {
 
     @PreAuthorize("hasRole('HUESPED')")
     @PutMapping("/{id}/cambiar-password")
-    public ResponseEntity<ResponseDTO<String>> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO, @PathVariable Long id) throws Exception{
+    public ResponseEntity<ResponseDTO<String>> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO, @PathVariable("id") Long id) throws Exception{
         usuarioService.changePassword(id, changePasswordDTO);
         return ResponseEntity.ok(new ResponseDTO<>(false, "Contraseña actualizada exitosamente"));
     }

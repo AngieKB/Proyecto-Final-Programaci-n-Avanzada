@@ -1,0 +1,73 @@
+@env = local
+@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9IVUVTUEVEIiwibmFtZSI6IkNhcmxvcyIsImVtYWlsIjoiY2FybG9zQGVtYWlsLmNvbSIsInN1YiI6IjIiLCJpYXQiOjE3NjAxNjg2MzQsImV4cCI6MTc2MDE3MjIzNH0.U-r5Iu0ExK5Pg_HdlLKD-u7-2Tdql-ABjmDUdZcIBMY
+
+### Crear un usuario
+POST http://localhost:8080/api/auth/register
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="nombre"
+
+Carlos
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="telefono"
+
+121212
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+carlos@email.com
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+Carlos123.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fechaNacimiento"
+
+2000-08-22
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fotoUrl"; filename="foto.jpg"
+Content-Type: image/jpeg
+
+< ./foto-test.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Login para obtener el token JWT
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "carlos@email.com",
+  "password": "Carlos123."
+}
+
+### Obtener todos los usuarios (requiere token)
+GET http://localhost:8080/api/usuario
+Authorization: Bearer {{token}}
+
+### Obtener un usuario por id (cambie 1 por el id del usuario que desea obtener)
+GET http://localhost:8080/api/usuario/1
+Authorization: Bearer {{token}}
+
+### Actualizar un usuario (cambie 1 por el id del usuario que desea actualizar)
+### Editar un usuario
+PUT http://localhost:8080/api/usuario/1
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="nombre"
+
+Carlos Editado
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="telefono"
+
+32032324
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+
+null
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Eliminar un usuario (cambie 1 por el id del usuario que desea eliminar)
+DELETE http://localhost:8080/api/usuario/id
+Authorization: Bearer {{token}}
