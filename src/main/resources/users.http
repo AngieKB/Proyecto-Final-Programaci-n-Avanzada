@@ -1,5 +1,6 @@
 @env = local
-@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9IVUVTUEVEIiwibmFtZSI6IkNhcmxvcyIsImVtYWlsIjoiY2FybG9zQGVtYWlsLmNvbSIsInN1YiI6IjIiLCJpYXQiOjE3NjAxNjg2MzQsImV4cCI6MTc2MDE3MjIzNH0.U-r5Iu0ExK5Pg_HdlLKD-u7-2Tdql-ABjmDUdZcIBMY
+@token = pegarToken
+//el token se obtiene del login, luego se puede copiar y pegar aquí para usar en las demás peticiones.
 
 ### Crear un usuario
 POST http://localhost:8080/api/auth/register
@@ -45,13 +46,12 @@ Content-Type: application/json
 GET http://localhost:8080/api/usuario
 Authorization: Bearer {{token}}
 
-### Obtener un usuario por id (cambie 1 por el id del usuario que desea obtener)
+### Obtener un usuario por id (cambie "id" por el id del usuario que desea obtener)
 GET http://localhost:8080/api/usuario/1
 Authorization: Bearer {{token}}
 
-### Actualizar un usuario (cambie 1 por el id del usuario que desea actualizar)
-### Editar un usuario
-PUT http://localhost:8080/api/usuario/1
+### Actualizar un usuario (cambie "id" por el id del usuario que desea actualizar)
+PUT http://localhost:8080/api/usuario/id
 Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -68,6 +68,6 @@ Content-Disposition: form-data; name="telefono"
 null
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-### Eliminar un usuario (cambie 1 por el id del usuario que desea eliminar)
+### Eliminar un usuario (cambie "id" por el id del usuario que desea eliminar)
 DELETE http://localhost:8080/api/usuario/id
 Authorization: Bearer {{token}}
