@@ -3,7 +3,7 @@ package co.edu.uniquindio.Application.Services.impl;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.TokenDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.*;
-import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Exceptions.ValidationException;
 import co.edu.uniquindio.Application.Exceptions.ValueConflictException;
 import co.edu.uniquindio.Application.Model.Usuario;
@@ -59,13 +59,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioDTO get(Long id) throws Exception {
         return usuarioRepository.findById(id)
                 .map(usuarioMapper::toDTO)
-                .orElseThrow(() -> new NotFoundException("El usuario con id " + id + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("El usuario con id " + id + " no existe"));
     }
 
     @Override
     public void delete (Long id) throws Exception {
         if (!usuarioRepository.existsById(id)) {
-            throw new NotFoundException("El usuario con id " + id + " no existe");
+            throw new ResourceNotFoundException("El usuario con id " + id + " no existe");
         }
         usuarioRepository.deleteById(id);
     }
@@ -112,7 +112,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     @Override
     public void resetPassword(ResetPasswordDTO resetPasswordDTO) throws Exception {
-        Usuario usuario = usuarioRepository.findByEmail(resetPasswordDTO.email()).orElseThrow(() -> new NotFoundException("El usuario no existe"));
+        Usuario usuario = usuarioRepository.findByEmail(resetPasswordDTO.email()).orElseThrow(() -> new ResourceNotFoundException("El usuario no existe"));
 
         // Se verifica que el código coincide
         if (usuario.getCodigoVerificacion() == null ||
@@ -148,14 +148,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         Optional<Usuario> optionalUser = usuarioRepository.findByEmail(loginDTO.email());
 
         if(optionalUser.isEmpty()){
-            throw new Exception("El usuario no existe");
+            throw new ResourceNotFoundException("El usuario no existe");
         }
 
         Usuario usuario = optionalUser.get();
 
         // Verificar si la contraseña es correcta usando el PasswordEncoder
         if(!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())){
-            throw new Exception("El usuario no existe");
+            throw new ResourceNotFoundException("El usuario no existe");
         }
 
         String token = jwtUtils.generateToken(usuario.getId().toString(), createClaims(usuario));
@@ -165,7 +165,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void sendVerificationCode(ForgotPasswordDTO forgotPasswordDTO) throws Exception {
         Usuario usuario = usuarioRepository.findByEmail(forgotPasswordDTO.email())
-                .orElseThrow(() -> new NotFoundException("El usuario no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("El usuario no existe"));
 
         // Generar un código aleatorio de 6 dígitos
         String codigo = String.valueOf((int)(Math.random() * 900000) + 100000);
@@ -200,6 +200,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private Usuario getUsuarioById(Long id) throws Exception{
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
     }
 }

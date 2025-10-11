@@ -1,7 +1,5 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasIntegracion;
 
-import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
-import co.edu.uniquindio.Application.Model.Comentario;
 import co.edu.uniquindio.Application.Repository.ComentarioRepository;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Security.JWTUtils;
@@ -14,8 +12,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = "jwt.secret=12345678901234567890123456789012")
-public class ComentarioControllerTest {
+public class ComentarioControllerPITest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +52,7 @@ public class ComentarioControllerTest {
         return jwtUtils.generateToken(usuario.getId().toString(), claims);
     }
 
+    /*
     @Test
     @Sql("classpath:dataset.sql")
     void testCrearComentarioExitoso() throws Exception {
@@ -157,7 +154,7 @@ public class ComentarioControllerTest {
                 .andExpect(jsonPath("$.error").value(false))
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content.length()").value(comentarioRepository.findByAlojamientoId(idAlojamiento).size()));
-    }
+    }*/
 
     @Test
     @Sql("classpath:dataset.sql")

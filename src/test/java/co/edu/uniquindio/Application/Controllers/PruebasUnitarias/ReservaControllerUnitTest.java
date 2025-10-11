@@ -1,8 +1,8 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasUnitarias;
 
+import co.edu.uniquindio.Application.Controllers.ReservaController;
 import co.edu.uniquindio.Application.DTO.*;
 import co.edu.uniquindio.Application.DTO.Reserva.*;
-import co.edu.uniquindio.Application.Model.EstadoReserva;
 import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,11 +1,10 @@
 package co.edu.uniquindio.Application.Services.impl;
 
-import co.edu.uniquindio.Application.DTO.Comentario.ComentarioDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.ResponderDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.RespuestaDTO;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
-import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Mappers.RespuestaMapper;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.Comentario;
@@ -34,7 +33,7 @@ public class RespuestaServiceImpl implements RespuestaService {
     public void responderComentario(ResponderDTO dto) throws Exception {
         // Validar que el comentario exista
         Comentario comentario = comentarioRepository.findById(dto.idComentario())
-                .orElseThrow(() -> new NotFoundException("El comentario no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("El comentario no existe"));
 
         Alojamiento alojamiento = comentario.getAlojamiento();
         Usuario anfitrion = alojamiento.getAnfitrion().getUsuario();
@@ -79,7 +78,7 @@ public class RespuestaServiceImpl implements RespuestaService {
     public RespuestaDTO obtener(Long id) throws Exception {
         return respuestaMapper.toDTO(
                 respuestaRepository.findById(id)
-                        .orElseThrow(() -> new NotFoundException("La respuesta no existe"))
+                        .orElseThrow(() -> new ResourceNotFoundException("La respuesta no existe"))
         );
     }
 }

@@ -1,5 +1,6 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasUnitarias;
 
+import co.edu.uniquindio.Application.Controllers.AlojamientoController;
 import co.edu.uniquindio.Application.DTO.Alojamiento.AlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.CrearAlojamientoDTO;
 import co.edu.uniquindio.Application.DTO.Alojamiento.ResumenAlojamientoDTO;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 
 import co.edu.uniquindio.Application.DTO.TokenDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.*;
@@ -8,6 +8,8 @@ import co.edu.uniquindio.Application.Model.Rol;
 import co.edu.uniquindio.Application.Model.Usuario;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Security.JWTUtils;
+import co.edu.uniquindio.Application.Services.EmailService;
+import co.edu.uniquindio.Application.Services.ImageService;
 import co.edu.uniquindio.Application.Services.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,7 @@ import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarioDTO;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
-import co.edu.uniquindio.Application.Exceptions.NotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Exceptions.ValidationException;
 import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
@@ -36,7 +36,7 @@ public class ComentarioServiceImpl implements ComentarioService {
     public void comentar(Long reservaId, ComentarDTO comentarDTO) throws Exception {
         // 1. Buscar la reserva
         Reserva reserva = reservaRepository.findById(reservaId)
-                .orElseThrow(() -> new NotFoundException("La reserva no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException("La reserva no existe"));
 
         // 2. Validar que pertenezca al huésped y al alojamiento correctos
         if (!reserva.getHuesped().getId().equals(comentarDTO.idUsuario()) ||
@@ -68,7 +68,7 @@ public class ComentarioServiceImpl implements ComentarioService {
                 .average()
                 .orElse(0);
 
-        Usuario usuario = usuarioRepository.findById(comentarDTO.idUsuario()).orElseThrow(() -> new NotFoundException("Usuario no encontrado"));
+        Usuario usuario = usuarioRepository.findById(comentarDTO.idUsuario()).orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         alojamiento.setCalificacionPromedio(promedio);
         alojamientoRepository.save(alojamiento);
@@ -84,7 +84,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         );
     }
 
-    public List<ComentarioDTO> listarComentariosPorAlojamiento(Long alojamientoId) throws Exception {
+    public List<ComentarioDTO> listarComentariosPorAlojamiento(Long alojamientoId) {
         return comentarioRepository.findByAlojamientoIdOrderByFechaDesc(alojamientoId)
                 .stream()
                 .map(comentarioMapper::toDto)

@@ -1,5 +1,6 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasUnitarias;
 
+import co.edu.uniquindio.Application.Controllers.ComentarioController;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.Services.impl.ComentarioServiceImpl;

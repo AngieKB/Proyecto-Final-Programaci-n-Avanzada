@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 
 import co.edu.uniquindio.Application.DTO.Alojamiento.*;
 import co.edu.uniquindio.Application.Model.*;
@@ -113,7 +113,7 @@ class AlojamientoServiceUnitTest {
     }
 
     @Test
-    void editarAlojamientoExitoso() {
+    void editarAlojamientoExitoso() throws Exception {
         when(alojamientoRepository.findById(1L)).thenReturn(Optional.of(alojamiento));
 
         alojamientoService.editarAlojamiento(1L, alojamientoDTO, ubicacionDTO);
@@ -123,7 +123,7 @@ class AlojamientoServiceUnitTest {
     }
 
     @Test
-    void eliminarSinReservasFuturasExitoso() {
+    void eliminarSinReservasFuturasExitoso() throws Exception {
         when(alojamientoRepository.findById(1L)).thenReturn(Optional.of(alojamiento));
 
         alojamientoService.eliminar(1L);
@@ -149,7 +149,7 @@ class AlojamientoServiceUnitTest {
     }
 
     @Test
-    void verMetricasExitoso() {
+    void verMetricasExitoso() throws Exception {
         Comentario comentario = new Comentario();
         comentario.setCalificacion(4);
         comentario.setFecha(LocalDateTime.now());
@@ -253,7 +253,7 @@ class AlojamientoServiceUnitTest {
         assertEquals(alojamientoDTO, resultados.get(0));
     }
     @Test
-    void agregarAFavoritos_deberiaAgregar() {
+    void agregarAFavoritos_deberiaAgregar() throws Exception {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioFavoritos));
         when(alojamientoRepository.findById(1L)).thenReturn(Optional.of(alojamiento));
         when(usuarioRepository.save(any())).thenReturn(usuarioFavoritos);
@@ -264,7 +264,7 @@ class AlojamientoServiceUnitTest {
         assertTrue(alojamiento.getUsuariosFavoritos().contains(usuarioFavoritos));
     }
     @Test
-    void quitarDeFavoritos_deberiaRemover() {
+    void quitarDeFavoritos_deberiaRemover() throws Exception {
         usuarioFavoritos.getFavoritos().add(alojamiento);
         alojamiento.getUsuariosFavoritos().add(usuarioFavoritos);
 
@@ -278,7 +278,7 @@ class AlojamientoServiceUnitTest {
         assertFalse(alojamiento.getUsuariosFavoritos().contains(usuarioFavoritos));
     }
     @Test
-    void listarFavoritos_deberiaDevolverDTOs() {
+    void listarFavoritos_deberiaDevolverDTOs() throws Exception{
         usuarioFavoritos.getFavoritos().add(alojamiento);
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioFavoritos));
         when(alojamientoMapper.toResumenDTO(alojamiento)).thenReturn(resumenAlojamientoDTO);

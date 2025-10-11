@@ -1,5 +1,6 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasUnitarias;
 
+import co.edu.uniquindio.Application.Controllers.UsuarioController;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.ChangePasswordDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-public class UsuarioControllerPUTest {
+public class UsuarioControllerUnitTest {
     @Mock
     private UsuarioService usuarioService;
 

@@ -1,6 +1,7 @@
 package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.EmailDTO;
+import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
 import co.edu.uniquindio.Application.Services.EmailService;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
@@ -15,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendMail(EmailDTO emailDTO) throws Exception {
+    public void sendMail(EmailDTO emailDTO) {
         Email email = EmailBuilder.startingBlank()
                 .from("correosappbooking@gmail.com")
                 .to(emailDTO.recipient())
@@ -30,6 +31,8 @@ public class EmailServiceImpl implements EmailService {
                 .buildMailer()) {
 
             mailer.sendMail(email);
+        } catch (Exception e) {
+            throw new InvalidOperationException("Error enviando el correo: " + e.getMessage());
         }
     }
 }

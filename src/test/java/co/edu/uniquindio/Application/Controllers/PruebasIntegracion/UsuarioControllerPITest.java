@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasIntegracion;
 
 import co.edu.uniquindio.Application.DTO.Usuario.ChangePasswordDTO;
 import co.edu.uniquindio.Application.DTO.Usuario.EditarUsuarioDTO;

@@ -1,8 +1,9 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasIntegracion;
 
 import co.edu.uniquindio.Application.DTO.Usuario.CrearUsuarioDTO;
 import co.edu.uniquindio.Application.Exceptions.ValueConflictException;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
+import co.edu.uniquindio.Application.Services.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

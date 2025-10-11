@@ -1,5 +1,6 @@
-package co.edu.uniquindio.Application.Controllers;
+package co.edu.uniquindio.Application.Controllers.PruebasUnitarias;
 
+import co.edu.uniquindio.Application.Controllers.PerfilAnfitrionController;
 import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;
@@ -15,7 +16,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PerfilAnfitrionControllerPUTest {
+public class PerfilAnfitrionControllerUnitTest {
 
     @Mock
     private PerfilAnfitrionService perfilAnfitrionService;

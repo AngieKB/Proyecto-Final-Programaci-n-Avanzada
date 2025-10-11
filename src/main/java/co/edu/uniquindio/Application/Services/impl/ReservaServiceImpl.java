@@ -3,6 +3,9 @@ package co.edu.uniquindio.Application.Services.impl;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.*;
 import co.edu.uniquindio.Application.Exceptions.BadCredentialsException;
+import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
+import co.edu.uniquindio.Application.Exceptions.ValidationException;
 import co.edu.uniquindio.Application.Model.Alojamiento;
 import co.edu.uniquindio.Application.Model.EstadoReserva;
 import co.edu.uniquindio.Application.Model.Reserva;
@@ -36,11 +39,11 @@ public class ReservaServiceImpl implements ReservaService {
     public void cancelarReserva(Long id)  {
         reservaRepository.findById(id).ifPresentOrElse(reserva -> {
             if(reserva.getEstado() == EstadoReserva.CANCELADA) {
-                throw new RuntimeException("La reserva ya se encuentra cancelada.");
+                throw new InvalidOperationException("La reserva ya se encuentra cancelada.");
             }
             LocalDateTime ahora = LocalDateTime.now();
             if(reserva.getFechaCheckIn().minusHours(48).isBefore(ahora)) {
-                throw new RuntimeException("No se puede cancelar la reserva a menos de 48 horas del check-in.");
+                throw new InvalidOperationException("No se puede cancelar la reserva a menos de 48 horas del check-in.");
             }
             reserva.setEstado(EstadoReserva.CANCELADA);
             reservaRepository.save(reserva);
@@ -63,7 +66,7 @@ public class ReservaServiceImpl implements ReservaService {
             }
 
         }, () -> {
-            throw new RuntimeException("No existe una reserva con el id " + id);
+            throw new ResourceNotFoundException("No existe una reserva con el id " + id);
         });
     }
 
@@ -75,10 +78,10 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     public void editarReserva(Long id, EditarReservaDTO dto) {
         Reserva reserva = reservaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No existe una reserva con el id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No existe una reserva con el id " + id));
 
         if (reserva.getEstado() == EstadoReserva.CANCELADA) {
-            throw new RuntimeException("No se puede editar una reserva cancelada.");
+            throw new InvalidOperationException("No se puede editar una reserva cancelada.");
         }
 
         // Usar mapper para actualizar los campos del DTO en la entidad existente
@@ -117,18 +120,18 @@ public class ReservaServiceImpl implements ReservaService {
 
         // convertir ids en entidades
         Usuario huesped = usuarioRepository.findById(reservadto.huespedId())
-                .orElseThrow(() -> new RuntimeException("No existe huésped con id " + reservadto.huespedId()));
+                .orElseThrow(() -> new ResourceNotFoundException("No existe huésped con id " + reservadto.huespedId()));
         Alojamiento alojamiento = alojamientoRepository.findById(reservadto.alojamientoId())
-                .orElseThrow(() -> new RuntimeException("No existe alojamiento con id " + reservadto.alojamientoId()));
+                .orElseThrow(() -> new ResourceNotFoundException("No existe alojamiento con id " + reservadto.alojamientoId()));
         if(reservadto.fechaCheckIn().isBefore(LocalDateTime.now()) || reservadto.fechaCheckOut().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("No se pueden reservar fechas pasadas.");
+            throw new InvalidOperationException("No se pueden reservar fechas pasadas.");
         }
         //  Validar mínimo 1 noche
         if(Duration.between(reservadto.fechaCheckIn(), reservadto.fechaCheckOut()).toDays() < 1) {
-            throw new RuntimeException("La reserva debe ser mínimo de 1 noche.");
+            throw new InvalidOperationException("La reserva debe ser mínimo de 1 noche.");
         }
         if(reservadto.cantidadHuespedes() > alojamiento.getCapacidadMax()) {
-            throw new RuntimeException("Se supera la capacidad máxima del alojamiento.");
+            throw new InvalidOperationException("Se supera la capacidad máxima del alojamiento.");
         }
         Reserva newReserva = reservaMapper.toEntity(reservadto);
         newReserva.setEstado(EstadoReserva.PENDIENTE);

@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasIntegracion;
 
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.ComentarioDTO;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @TestPropertySource(properties = "jwt.secret=MiSecretoSuperSeguro123")
-public class ComentarioServiceImplTest {
+public class ComentarioServicePITest {
 
     @Autowired
     private ComentarioServiceImpl comentarioService;

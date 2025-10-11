@@ -1,5 +1,4 @@
-package co.edu.uniquindio.Application.Services;
-import co.edu.uniquindio.Application.Services.ImageService;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 import co.edu.uniquindio.Application.Services.impl.ImageServiceImpl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;

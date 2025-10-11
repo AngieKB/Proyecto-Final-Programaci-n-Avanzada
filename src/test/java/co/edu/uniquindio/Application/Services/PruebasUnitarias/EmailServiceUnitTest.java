@@ -1,11 +1,10 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.Services.impl.EmailServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 
 import static org.mockito.Mockito.*;

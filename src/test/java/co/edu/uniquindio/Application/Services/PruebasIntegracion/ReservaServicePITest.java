@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasIntegracion;
 
 import co.edu.uniquindio.Application.DTO.Reserva.EditarReservaDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.RealizarReservaDTO;
@@ -8,6 +8,7 @@ import co.edu.uniquindio.Application.DTO.Reserva.ReservaUsuarioDTO;
 import co.edu.uniquindio.Application.Model.EstadoReserva;
 import co.edu.uniquindio.Application.Model.Reserva;
 import co.edu.uniquindio.Application.Repository.ReservaRepository;
+import co.edu.uniquindio.Application.Services.ReservaService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

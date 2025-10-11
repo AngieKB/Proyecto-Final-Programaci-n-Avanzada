@@ -1,6 +1,8 @@
 package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.Alojamiento.*;
+import co.edu.uniquindio.Application.Exceptions.InvalidOperationException;
+import co.edu.uniquindio.Application.Exceptions.ResourceNotFoundException;
 import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
@@ -13,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static co.edu.uniquindio.Application.Model.EstadoAlojamiento.ACTIVO;
 
@@ -49,13 +48,13 @@ public class AlojamientoServiceImpl implements AlojamientoService {
 
     @Override
     public AlojamientoDTO obtenerPorId(Long id) throws Exception{
-        return alojamientoRepository.findById(id).map(alojamientoMapper::toDTO).orElseThrow(() -> new Exception("Alojamiento no encontrado con id: " + id));
+        return alojamientoRepository.findById(id).map(alojamientoMapper::toDTO).orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado con id: " + id));
     }
 
     @Override
-    public void editarAlojamiento(Long id, AlojamientoDTO alojadto, UbicacionDTO ubicaciondto){
+    public void editarAlojamiento(Long id, AlojamientoDTO alojadto, UbicacionDTO ubicaciondto) throws Exception{
         Alojamiento alojamiento = alojamientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado con id: " + id));
 
         // Actualiza los campos usando el mapper
         alojamientoMapper.updateEntity(alojamiento, alojadto);
@@ -70,10 +69,10 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public void eliminar(Long id) {
+    public void eliminar(Long id) throws Exception{
         // Buscar alojamiento
         Alojamiento alojamiento = alojamientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado con id: " + id));
 
         // Verificar si tiene reservas futuras
         boolean tieneReservasFuturas = alojamiento.getReservas().stream()
@@ -81,7 +80,7 @@ public class AlojamientoServiceImpl implements AlojamientoService {
                         && reserva.getEstado() != EstadoReserva.CANCELADA);
 
         if (tieneReservasFuturas) {
-            throw new RuntimeException("No se puede eliminar el alojamiento porque tiene reservas futuras.");
+            throw new InvalidOperationException("No se puede eliminar el alojamiento porque tiene reservas futuras.");
         }
 
         // Soft delete: cambiar estado a ELIMINADO
@@ -93,9 +92,9 @@ public class AlojamientoServiceImpl implements AlojamientoService {
 
 
     @Override
-    public MetricasDTO verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax) {
+    public MetricasDTO verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax) throws Exception{
         Alojamiento alojamiento = alojamientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
         // Filtrar reservas por rango de fechas
         int reservas = (int) alojamiento.getReservas().stream()
@@ -147,12 +146,12 @@ public class AlojamientoServiceImpl implements AlojamientoService {
                 .toList();
     }
     @Override
-    public void agregarAFavoritos(Long usuarioId, Long alojamientoId) {
+    public void agregarAFavoritos(Long usuarioId, Long alojamientoId) throws Exception{
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
         if (!usuario.getFavoritos().contains(alojamiento)) {
             usuario.getFavoritos().add(alojamiento);
@@ -162,12 +161,12 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public void quitarDeFavoritos(Long usuarioId, Long alojamientoId) {
+    public void quitarDeFavoritos(Long usuarioId, Long alojamientoId) throws Exception{
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
         usuario.getFavoritos().remove(alojamiento);
         alojamiento.getUsuariosFavoritos().remove(usuario);
@@ -175,9 +174,9 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public List<ResumenAlojamientoDTO> listarFavoritos(Long usuarioId) {
+    public List<ResumenAlojamientoDTO> listarFavoritos(Long usuarioId) throws Exception{
         Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         return usuario.getFavoritos().stream()
                 .map(alojamientoMapper::toResumenDTO)
@@ -185,9 +184,9 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     }
 
     @Override
-    public int contarUsuariosFavorito(Long alojamientoId) {
+    public int contarUsuariosFavorito(Long alojamientoId) throws Exception{
         Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
-                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Alojamiento no encontrado"));
 
         return alojamiento.getUsuariosFavoritos().size();
     }

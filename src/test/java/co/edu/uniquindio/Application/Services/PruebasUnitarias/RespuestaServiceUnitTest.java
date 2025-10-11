@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 
 import co.edu.uniquindio.Application.DTO.Comentario.ResponderDTO;
 import co.edu.uniquindio.Application.DTO.Comentario.RespuestaDTO;

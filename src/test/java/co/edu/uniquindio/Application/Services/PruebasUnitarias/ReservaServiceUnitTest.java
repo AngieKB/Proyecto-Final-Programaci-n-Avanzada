@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 
 import co.edu.uniquindio.Application.DTO.EmailDTO;
 import co.edu.uniquindio.Application.DTO.Reserva.EditarReservaDTO;
@@ -10,6 +10,7 @@ import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
 import co.edu.uniquindio.Application.Repository.ReservaRepository;
 import co.edu.uniquindio.Application.Repository.UsuarioRepository;
+import co.edu.uniquindio.Application.Services.EmailService;
 import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

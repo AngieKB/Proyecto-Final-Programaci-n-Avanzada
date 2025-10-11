@@ -1,4 +1,4 @@
-package co.edu.uniquindio.Application.Services;
+package co.edu.uniquindio.Application.Services.PruebasUnitarias;
 
 import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
@@ -24,7 +24,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class PerfilAnfitrionServicePUTest {
+public class PerfilAnfitrionServiceUnitTest {
 
     @Mock
     private PerfilAnfitrionRepository perfilAnfitrionRepository;
