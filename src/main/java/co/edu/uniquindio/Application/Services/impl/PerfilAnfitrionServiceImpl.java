@@ -26,8 +26,12 @@ public class PerfilAnfitrionServiceImpl implements PerfilAnfitrionService {
 
     @Override
     public void crearPerfil(CrearAnfitrionDTO dto) {
-        perfilAnfitrionRepository.save(perfilAnfitrionMapper.toEntity(dto));
-        Usuario usuario = usuarioRepository.findById(dto.usuarioId()).orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + dto.usuarioId() + " no encontrado"));
+        Usuario usuario = usuarioRepository.findById(dto.usuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario con id " + dto.usuarioId() + " no encontrado"));
+
+        PerfilAnfitrion perfil = perfilAnfitrionMapper.toEntity(dto);
+        perfilAnfitrionRepository.save(perfil);
+
         usuario.setRol(Rol.ANFITRION);
         usuarioRepository.save(usuario);
     }

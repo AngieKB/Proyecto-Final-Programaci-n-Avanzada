@@ -16,5 +16,7 @@ public interface UsuarioMapper {
     @Mapping(target = "codigoExpiraEn", ignore = true)
     Usuario toEntity(CrearUsuarioDTO usuarioDTO);
     UsuarioDTO toDTO(Usuario usuario);
+
+    @Mapping(target = "fotoUrl", ignore = true)
     void updateUsuarioFromDto(EditarUsuarioDTO dto, @MappingTarget Usuario usuario);
 }

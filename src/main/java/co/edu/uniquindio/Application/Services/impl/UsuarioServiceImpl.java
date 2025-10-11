@@ -183,11 +183,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 
-    private Map<String, String> createClaims(Usuario usuario){
+    private Map<String, String> createClaims(Usuario usuario) {
+        String email = usuario.getEmail() != null ? usuario.getEmail() : "";
+        String nombre = usuario.getNombre() != null ? usuario.getNombre() : "";
+        String rol = (usuario.getRol() != null) ? "ROLE_" + usuario.getRol().name() : "ROLE_USER";
+
         return Map.of(
-                "email", usuario.getEmail(),
-                "name", usuario.getNombre(),
-                "role", "ROLE_"+usuario.getRol().name()
+                "email", email,
+                "name", nombre,
+                "role", rol
         );
     }
 

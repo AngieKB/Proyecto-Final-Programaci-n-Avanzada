@@ -1,8 +1,8 @@
 INSERT INTO usuario (id, nombre, email, telefono, password, foto_url, fecha_nacimiento, fecha_creacion, rol)
 VALUES
-    (1, 'Amyi Lopez', 'amyi@example.com', '3001234567', 'pass123', 'https://img.com/amy.jpg', '1990-01-01', NOW(), 'HUESPED'),
-    (2, 'Juan Pérez', 'juan@example.com', '3017654321', 'pass456', 'https://img.com/juan.jpg', '1985-02-15', NOW(), 'ANFITRION'),
-    (3, 'Laura Mendoza', 'laura@example.com', NULL, 'pass789', NULL, '1998-07-10', NOW(), 'HUESPED');
+    (1, 'Amyi Lopez', 'amyi@example.com', '3001234567', '$2a$10$W89d1M9Ubntp8DOs/D8yoeghxj.jl/gfIPCG5XehNyISO6JvOtMsq', 'https://img.com/amy.jpg', '1990-01-01', NOW(), 'HUESPED'),
+    (2, 'Juan Pérez', 'juan@example.com', '3017654321', '$2a$10$iNgtMHF3ddXmoqlbv2wuU.Y9Z4Tog35LjV1iAmh14EryXh6woA61K', 'https://img.com/juan.jpg', '1985-02-15', NOW(), 'ANFITRION'),
+    (3, 'Laura Mendoza', 'laura@example.com', NULL, '$2a$10$9Bw8ULxiCzX7BUzjvDAz3.vCNShoZrwH2SUypd8J4Gn0sFJ/cJkRK', NULL, '1998-07-10', NOW(), 'HUESPED');
 
 INSERT INTO perfil_anfitrion (id, descripcion, usuario_id)
 VALUES (2, 'Anfitrion experimentado en cabanias rurales', 2);

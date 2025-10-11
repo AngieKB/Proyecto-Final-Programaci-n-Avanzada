@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @TestPropertySource(properties = "jwt.secret=MiSecretoSuperSeguro123")
-public class UsuarioServiceImplTest {
+public class UsuarioServicePITest {
 
     @Autowired
     private UsuarioService usuarioService;

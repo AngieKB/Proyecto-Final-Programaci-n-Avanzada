@@ -1,6 +1,5 @@
 package co.edu.uniquindio.Application.Controllers;
 
-import co.edu.uniquindio.Application.DTO.Anfitrion.CrearAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.EditarAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.Anfitrion.PerfilAnfitrionDTO;
 import co.edu.uniquindio.Application.DTO.ResponseDTO;

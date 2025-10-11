@@ -23,14 +23,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @TestPropertySource(properties = "jwt.secret=MiSecretoSuperSeguro123")
-public class ReservaServiceImplTest {
+public class ReservaServicePITest {
     @Autowired
     private ReservaService reservaService;
     @Autowired
     private ReservaRepository reservaRepository;
-
-
-
 
     @Test
     @Sql("classpath:dataset.sql")
@@ -175,11 +172,5 @@ public class ReservaServiceImplTest {
         assertEquals(nuevaCantidad, reservaActualizada.getCantidadHuespedes());
         assertEquals(nuevoTotal, reservaActualizada.getTotal());
     }
-
-
-
-
-
-
 }
 
