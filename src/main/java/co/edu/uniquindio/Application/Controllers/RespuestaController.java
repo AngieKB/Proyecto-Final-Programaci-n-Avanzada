@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class RespuestaController {
     private final RespuestaServiceImpl respuestaService;
 
-    @PreAuthorize("hasRole('HUESPED')")
+    @PreAuthorize("hasRole('ANFITRION')")
     @PostMapping
     public ResponseEntity<ResponseDTO<String>> responderComentario(@RequestBody ResponderDTO responderDTO) throws Exception {
         respuestaService.responderComentario(responderDTO);

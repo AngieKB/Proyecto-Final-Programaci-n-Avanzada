@@ -8,6 +8,7 @@ import co.edu.uniquindio.Application.Services.impl.ReservaServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ReservaController {
     private final ReservaServiceImpl reservaService;
 
+    @PreAuthorize("hasRole('HUESPED')")
     @PostMapping("/crear")
     public ResponseEntity<ResponseDTO<String>> create(@Valid @RequestBody RealizarReservaDTO realizarReservaDTO) throws Exception {
         reservaService.guardar(realizarReservaDTO);
