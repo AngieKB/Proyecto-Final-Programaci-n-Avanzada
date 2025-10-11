@@ -59,4 +59,7 @@ public class Alojamiento {
     @JoinColumn(name = "anfitrion_id")
     private PerfilAnfitrion anfitrion;
 
+    @ManyToMany(mappedBy = "favoritos")
+    private List<Usuario> usuariosFavoritos = new ArrayList<>();
+
 }

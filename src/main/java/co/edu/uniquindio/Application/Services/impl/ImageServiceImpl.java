@@ -23,6 +23,10 @@ public class ImageServiceImpl implements ImageService {
         config.put("api_secret", "XpKq0lCNx4mG_PIQ854d-mJIH7c");
         cloudinary = new Cloudinary(config);
     }
+    // Constructor para tests
+    public ImageServiceImpl(Cloudinary cloudinary){
+        this.cloudinary = cloudinary;
+    }
 
     @Override
     public Map upload(MultipartFile image) throws Exception {

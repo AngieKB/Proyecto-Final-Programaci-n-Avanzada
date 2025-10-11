@@ -3,6 +3,7 @@ package co.edu.uniquindio.Application.Services.impl;
 import co.edu.uniquindio.Application.DTO.Alojamiento.*;
 import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
+import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
 import co.edu.uniquindio.Application.Services.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class AlojamientoServiceImpl implements AlojamientoService {
     private final AlojamientoRepository alojamientoRepository;
     private final AlojamientoMapper alojamientoMapper;
     private final ImageService imageService;
+    private final UsuarioRepository usuarioRepository;
 
 
     @Override
@@ -143,5 +145,50 @@ public class AlojamientoServiceImpl implements AlojamientoService {
                 .stream()
                 .map(alojamientoMapper::toDTO)
                 .toList();
+    }
+    @Override
+    public void agregarAFavoritos(Long usuarioId, Long alojamientoId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+
+        if (!usuario.getFavoritos().contains(alojamiento)) {
+            usuario.getFavoritos().add(alojamiento);
+            alojamiento.getUsuariosFavoritos().add(usuario);
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    @Override
+    public void quitarDeFavoritos(Long usuarioId, Long alojamientoId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+
+        usuario.getFavoritos().remove(alojamiento);
+        alojamiento.getUsuariosFavoritos().remove(usuario);
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public List<ResumenAlojamientoDTO> listarFavoritos(Long usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return usuario.getFavoritos().stream()
+                .map(alojamientoMapper::toResumenDTO)
+                .toList();
+    }
+
+    @Override
+    public int contarUsuariosFavorito(Long alojamientoId) {
+        Alojamiento alojamiento = alojamientoRepository.findById(alojamientoId)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+
+        return alojamiento.getUsuariosFavoritos().size();
     }
 }

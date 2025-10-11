@@ -86,4 +86,39 @@ public class AlojamientoController {
         List<AlojamientoDTO> list = new ArrayList<>(alojamientoService.listarPorAnfitrion(idAnfitrion));
         return ResponseEntity.ok(new ResponseDTO<>(false, list));
     }
+    @PreAuthorize("hasRole('USUARIO')")
+    @PostMapping("/{usuarioId}/favoritos/{alojamientoId}")
+    public ResponseEntity<ResponseDTO<String>> agregarAFavoritos(
+            @PathVariable Long usuarioId,
+            @PathVariable Long alojamientoId) throws Exception {
+
+        alojamientoService.agregarAFavoritos(usuarioId, alojamientoId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Alojamiento agregado a favoritos"));
+    }
+
+    @PreAuthorize("hasRole('USUARIO')")
+    @DeleteMapping("/{usuarioId}/favoritos/{alojamientoId}")
+    public ResponseEntity<ResponseDTO<String>> quitarDeFavoritos(
+            @PathVariable Long usuarioId,
+            @PathVariable Long alojamientoId) throws Exception {
+
+        alojamientoService.quitarDeFavoritos(usuarioId, alojamientoId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, "Alojamiento removido de favoritos"));
+    }
+
+    @PreAuthorize("hasRole('USUARIO')")
+    @GetMapping("/{usuarioId}/favoritos")
+    public ResponseEntity<ResponseDTO<List<ResumenAlojamientoDTO>>> listarFavoritos(@PathVariable Long usuarioId) throws Exception {
+        List<ResumenAlojamientoDTO> favoritos = alojamientoService.listarFavoritos(usuarioId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, favoritos));
+    }
+
+    @PreAuthorize("hasRole('ANFITRION')")
+    @GetMapping("/{alojamientoId}/favorito/count")
+    public ResponseEntity<ResponseDTO<Integer>> contarUsuariosFavorito(@PathVariable Long alojamientoId) throws Exception {
+        int cantidad = alojamientoService.contarUsuariosFavorito(alojamientoId);
+        return ResponseEntity.ok(new ResponseDTO<>(false, cantidad));
+    }
+
+
 }

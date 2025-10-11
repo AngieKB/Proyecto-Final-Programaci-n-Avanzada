@@ -3,6 +3,7 @@ package co.edu.uniquindio.Application.Services;
 import co.edu.uniquindio.Application.DTO.Alojamiento.*;
 import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
+import co.edu.uniquindio.Application.Repository.UsuarioRepository;
 import co.edu.uniquindio.Application.Services.impl.AlojamientoServiceImpl;
 import co.edu.uniquindio.Application.Mappers.AlojamientoMapper;
 import co.edu.uniquindio.Application.Services.ImageService;
@@ -31,9 +32,15 @@ class AlojamientoServiceUnitTest {
     @Mock
     private ImageService imageService;
 
+    @Mock
+    private UsuarioRepository usuarioRepository;
+
+
     private Alojamiento alojamiento;
     private AlojamientoDTO alojamientoDTO;
+    private ResumenAlojamientoDTO resumenAlojamientoDTO;
     private UbicacionDTO ubicacionDTO;
+    private Usuario usuarioFavoritos;
 
     @BeforeEach
     void setUp() {
@@ -54,8 +61,22 @@ class AlojamientoServiceUnitTest {
                 List.of(),
                 EstadoAlojamiento.ACTIVO
         );
+        resumenAlojamientoDTO = new ResumenAlojamientoDTO(
+                1L,
+                "Hotel Central",
+                "Bogotá",
+                200000.0,
+                4.0,
+                "http://image.com/img1.jpg"
+        );
+        usuarioFavoritos = new Usuario();
+        usuarioFavoritos.setId(1L);
+        usuarioFavoritos.setFavoritos(new ArrayList<>());
+
+
 
         alojamiento = new Alojamiento();
+        alojamiento.setUsuariosFavoritos(new ArrayList<>());
         alojamiento.setId(1L);
         alojamiento.setTitulo("Hotel Central");
         alojamiento.setDescripcion("Descripción del hotel");
@@ -231,5 +252,43 @@ class AlojamientoServiceUnitTest {
         assertEquals(1, resultados.size());
         assertEquals(alojamientoDTO, resultados.get(0));
     }
+    @Test
+    void agregarAFavoritos_deberiaAgregar() {
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioFavoritos));
+        when(alojamientoRepository.findById(1L)).thenReturn(Optional.of(alojamiento));
+        when(usuarioRepository.save(any())).thenReturn(usuarioFavoritos);
+
+        alojamientoService.agregarAFavoritos(1L, 1L);
+
+        assertTrue(usuarioFavoritos.getFavoritos().contains(alojamiento));
+        assertTrue(alojamiento.getUsuariosFavoritos().contains(usuarioFavoritos));
+    }
+    @Test
+    void quitarDeFavoritos_deberiaRemover() {
+        usuarioFavoritos.getFavoritos().add(alojamiento);
+        alojamiento.getUsuariosFavoritos().add(usuarioFavoritos);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioFavoritos));
+        when(alojamientoRepository.findById(1L)).thenReturn(Optional.of(alojamiento));
+        when(usuarioRepository.save(any())).thenReturn(usuarioFavoritos);
+
+        alojamientoService.quitarDeFavoritos(1L, 1L);
+
+        assertFalse(usuarioFavoritos.getFavoritos().contains(alojamiento));
+        assertFalse(alojamiento.getUsuariosFavoritos().contains(usuarioFavoritos));
+    }
+    @Test
+    void listarFavoritos_deberiaDevolverDTOs() {
+        usuarioFavoritos.getFavoritos().add(alojamiento);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioFavoritos));
+        when(alojamientoMapper.toResumenDTO(alojamiento)).thenReturn(resumenAlojamientoDTO);
+
+        List<ResumenAlojamientoDTO> favoritos = alojamientoService.listarFavoritos(1L);
+
+        assertEquals(1, favoritos.size());
+        assertEquals(resumenAlojamientoDTO, favoritos.get(0));
+    }
+
+
 
 }

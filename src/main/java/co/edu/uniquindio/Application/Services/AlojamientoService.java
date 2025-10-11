@@ -19,4 +19,8 @@ public interface AlojamientoService {
     List<AlojamientoDTO> listarPorAnfitrion(Long idAnfitrion)throws Exception;
     List<ResumenAlojamientoDTO> buscarPorFechas(LocalDateTime inicio, LocalDateTime fin)throws Exception;
     List<AlojamientoDTO> buscarPorServicios(List<String> servicios)throws Exception;
+    void agregarAFavoritos(Long usuarioId, Long alojamientoId)throws Exception;
+    void quitarDeFavoritos(Long usuarioId, Long alojamientoId)throws Exception;
+    List<ResumenAlojamientoDTO> listarFavoritos(Long usuarioId)throws Exception;
+    int contarUsuariosFavorito(Long alojamientoId)throws Exception;
 }

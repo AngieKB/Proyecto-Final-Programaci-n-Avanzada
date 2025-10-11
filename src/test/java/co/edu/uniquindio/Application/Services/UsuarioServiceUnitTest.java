@@ -23,7 +23,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UsuarioServicioPUTest {
+public class UsuarioServiceUnitTest {
 
     @Mock
     private UsuarioMapper usuarioMapper;
@@ -171,7 +171,7 @@ public class UsuarioServicioPUTest {
         assertThrows(ValueConflictException.class, () -> usuarioService.changePassword(1L, dto));
     }
 
-    // 🔹 RESET PASSWORD
+    //  RESET PASSWORD
     @Test
     void testResetPasswordExitoso() throws Exception {
         Usuario usuario = new Usuario();
