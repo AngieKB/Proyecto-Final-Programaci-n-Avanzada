@@ -32,5 +32,31 @@ public interface AlojamientoMapper {
         }
         return null;
     }
+    // NUEVO: Actualiza una entidad existente con un DTO
+    default void updateEntity(Alojamiento entity, AlojamientoDTO dto) {
+        if(dto == null || entity == null) return;
+
+        entity.setTitulo(dto.titulo());
+        entity.setDescripcion(dto.descripcion());
+        entity.setCapacidadMax(dto.capacidadMax());
+        entity.setPrecioNoche(dto.precioNoche());
+        entity.setServicios(dto.servicios());
+        entity.setEstado(dto.estado());
+
+        if(entity.getUbicacion() == null) {
+            entity.setUbicacion(new Ubicacion(
+                    dto.ubicacion().direccion(),
+                    dto.ubicacion().ciudad(),
+                    dto.ubicacion().pais(),
+                    dto.ubicacion().latitud(),
+                    dto.ubicacion().longitud()
+            ));
+        } else {
+            entity.getUbicacion().setDireccion(dto.ubicacion().direccion());
+            entity.getUbicacion().setCiudad(dto.ubicacion().ciudad());
+            entity.getUbicacion().setPais(dto.ubicacion().pais());
+            entity.getUbicacion().setLatitud(dto.ubicacion().latitud());
+            entity.getUbicacion().setLongitud(dto.ubicacion().longitud());
+        }}
 
 }

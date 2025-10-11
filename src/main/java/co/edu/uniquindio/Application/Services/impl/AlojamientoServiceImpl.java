@@ -1,9 +1,7 @@
 package co.edu.uniquindio.Application.Services.impl;
 
 import co.edu.uniquindio.Application.DTO.Alojamiento.*;
-import co.edu.uniquindio.Application.Model.Alojamiento;
-import co.edu.uniquindio.Application.Model.Comentario;
-import co.edu.uniquindio.Application.Model.Ubicacion;
+import co.edu.uniquindio.Application.Model.*;
 import co.edu.uniquindio.Application.Repository.AlojamientoRepository;
 import co.edu.uniquindio.Application.Services.AlojamientoService;
 import co.edu.uniquindio.Application.Services.ImageService;
@@ -54,22 +52,15 @@ public class AlojamientoServiceImpl implements AlojamientoService {
 
     @Override
     public void editarAlojamiento(Long id, AlojamientoDTO alojadto, UbicacionDTO ubicaciondto){
-        Alojamiento alojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con id: " + id));
-        Ubicacion ubicacion = alojamiento.getUbicacion();
-        ubicacion.setCiudad(ubicaciondto.ciudad());
-        ubicacion.setDireccion(ubicaciondto.direccion());
-        ubicacion.setPais(ubicaciondto.pais());
-        ubicacion.setLatitud(ubicaciondto.latitud());
-        ubicacion.setLongitud(ubicaciondto.longitud());
-        alojamiento.setEstado(alojadto.estado());
-        alojamiento.setDescripcion(alojadto.descripcion());
-        alojamiento.setCapacidadMax(alojadto.capacidadMax());
-        alojamiento.setPrecioNoche(alojadto.precioNoche());
-        alojamiento.setServicios(alojadto.servicios());
-        alojamiento.setTitulo(alojadto.titulo());
-        alojamiento.setUbicacion(ubicacion);
+        Alojamiento alojamiento = alojamientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con id: " + id));
+
+        // Actualiza los campos usando el mapper
+        alojamientoMapper.updateEntity(alojamiento, alojadto);
+
         alojamientoRepository.save(alojamiento);
     }
+
 
     @Override
     public List<AlojamientoDTO> listarTodos() {
@@ -78,17 +69,53 @@ public class AlojamientoServiceImpl implements AlojamientoService {
 
     @Override
     public void eliminar(Long id) {
-        alojamientoRepository.deleteById(id);
+        // Buscar alojamiento
+        Alojamiento alojamiento = alojamientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado con id: " + id));
+
+        // Verificar si tiene reservas futuras
+        boolean tieneReservasFuturas = alojamiento.getReservas().stream()
+                .anyMatch(reserva -> reserva.getFechaCheckIn().isAfter(LocalDateTime.now())
+                        && reserva.getEstado() != EstadoReserva.CANCELADA);
+
+        if (tieneReservasFuturas) {
+            throw new RuntimeException("No se puede eliminar el alojamiento porque tiene reservas futuras.");
+        }
+
+        // Soft delete: cambiar estado a ELIMINADO
+        alojamiento.setEstado(EstadoAlojamiento.INACTIVO);
+
+        // Guardar cambios en la base de datos
+        alojamientoRepository.save(alojamiento);
     }
 
+
     @Override
-    public MetricasDTO verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax){
-        Alojamiento alojamiento = alojamientoRepository.findById(id).orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
-        int total = alojamiento.getComentarios().stream().mapToInt(Comentario::getCalificacion).sum();
-        double promedio = (double) total / alojamiento.getComentarios().size();
-        int reservas = alojamiento.getReservas().size();
+    public MetricasDTO verMetricas(Long id, LocalDateTime fechaMin, LocalDateTime fechaMax) {
+        Alojamiento alojamiento = alojamientoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alojamiento no encontrado"));
+
+        // Filtrar reservas por rango de fechas
+        int reservas = (int) alojamiento.getReservas().stream()
+                .filter(r -> !r.getFechaCheckIn().isBefore(fechaMin) && !r.getFechaCheckOut().isAfter(fechaMax))
+                .count();
+
+        // Filtrar comentarios por fecha de creación (si existe campo fecha), opcional
+        List<Comentario> comentariosFiltrados = alojamiento.getComentarios().stream()
+                .filter(c -> c.getFecha().isAfter(fechaMin) && c.getFecha().isBefore(fechaMax))
+                .toList();
+
+        double promedio = 0.0;
+        if (!comentariosFiltrados.isEmpty()) {
+            promedio = comentariosFiltrados.stream()
+                    .mapToInt(Comentario::getCalificacion)
+                    .average()
+                    .orElse(0.0);
+        }
+
         return new MetricasDTO(promedio, reservas);
     }
+
 
     @Override
     public List<ResumenAlojamientoDTO> buscarPorCiudad(String ciudad) {

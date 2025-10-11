@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,14 +48,14 @@ public class ReservaServiceImpl implements ReservaService {
                 emailService.sendMail(
                         new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(),
                                 "El usuario " + reserva.getHuesped().getNombre() +
-                                "canceló su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() +
-                                "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
+                                        "canceló su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() +
+                                        "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
                                 reserva.getAlojamiento().getAnfitrion().getUsuario().getEmail())
                 );
                 emailService.sendMail(
                         new EmailDTO("Cancelación de: " + reserva.getHuesped().getNombre(),
                                 "Ha cancelado su reserva que estaba registrada para el día " + reserva.getFechaCheckIn() +
-                                "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
+                                        "en el alojamiento " + reserva.getAlojamiento().getTitulo(),
                                 reserva.getHuesped().getEmail())
                 );
             } catch (Exception e) {
@@ -90,7 +91,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<ReservaUsuarioDTO> obtenerReservasPorIdHuesped(Long id) {
-        List<Reserva> reservas = reservaRepository.findByHuespedId(id);
+        List<Reserva> reservas = new ArrayList<>(reservaRepository.findByHuespedId(id));
 
         // Ordenar de más reciente a más antigua
         reservas.sort((r1, r2) -> r2.getFechaCheckIn().compareTo(r1.getFechaCheckIn()));
@@ -102,7 +103,7 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<ReservaAlojamientoDTO> obtenerReservasPorIdAlojamiento(Long id) {
-        List<Reserva> reservas = reservaRepository.findByAlojamientoId(id);
+        List<Reserva> reservas = new ArrayList<>(reservaRepository.findByAlojamientoId(id));
 
         // Ordenar de más reciente a más antigua
         reservas.sort((r1, r2) -> r2.getFechaCheckIn().compareTo(r1.getFechaCheckIn()));
@@ -142,10 +143,10 @@ public class ReservaServiceImpl implements ReservaService {
         emailService.sendMail(
                 new EmailDTO("Reserva en appBooking de: " + newReserva.getHuesped().getNombre(),
                         "Su reserva se realizó satisfactoriamente con los siguientes datos. \\nDía de llegada: " + newReserva.getFechaCheckIn()
-                        + "\nDía de salida: " + newReserva.getFechaCheckOut()
-                        + "\nCantidad de huéspedes: " + newReserva.getCantidadHuespedes()
-                        + "\nEn el alojamiento: " + newReserva.getAlojamiento().getTitulo()
-                        + "\nPor un total de: " + newReserva.getTotal(),
+                                + "\nDía de salida: " + newReserva.getFechaCheckOut()
+                                + "\nCantidad de huéspedes: " + newReserva.getCantidadHuespedes()
+                                + "\nEn el alojamiento: " + newReserva.getAlojamiento().getTitulo()
+                                + "\nPor un total de: " + newReserva.getTotal(),
                         newReserva.getHuesped().getEmail())
         );
         emailService.sendMail(
